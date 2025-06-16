@@ -5,12 +5,16 @@ local vim = vim
 
 local M = {}
 
-M.example_command = function(state)
+M.tests_command = function(state)
   local tree = state.tree
   local node = tree:get_node()
   local id = node:get_id()
   local name = node.name
-  print(string.format("example_command: id=%s, name=%s", id, name))
+  print(string.format("tests: id=%s, name=%s", id, name))
+end
+
+M.refresh = function(state)
+  manager.refresh("tests", state)
 end
 
 M.show_debug_info = function(state)
