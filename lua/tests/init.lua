@@ -5,6 +5,7 @@ local renderer = require("neo-tree.ui.renderer")
 local manager = require("neo-tree.sources.manager")
 local events = require("neo-tree.events")
 local utils = require("neo-tree.utils")
+local items = require("tests.lib.items")
 
 local M = {
   -- This is the name our source will be referred to as
@@ -49,28 +50,26 @@ end
 
 ---Navigate to the given path.
 ---@param path string Path to navigate to. If empty, will navigate to the cwd.
-M.navigate = function(state, path)
-  if path == nil then
-    path = vim.fn.getcwd()
+M.navigate = function(state, path, path_to_reveal, callback, async)
+  state.path = path or state.path
+  state.dirty = false
+  if path_to_reveal then
+    renderer.position.set(state, path_to_reveal)
   end
-  if state == nil then
-    state = {}
-  end
-  state.path = path
 
-  -- Do something useful here to get items
-  local items = {}
-  renderer.show_nodes(items, state)
+  local items_to_render = items.neotest_as_items()
+
+  if type(callback) == "function" then
+    vim.schedule(callback)
+  end
+
+  renderer.show_nodes(items_to_render, state)
 end
 
 ---Configures the plugin, should be called before the plugin is used.
 ---@param config table Configuration table containing any keys that the user
 --wants to change from the defaults. May be empty to accept default values.
 M.setup = function(config, global_config)
-  local adapter_group = require("neotest.adapters")()
-  local client = require("neotest.client")(adapter_group)
-  vim.print(client.get_adapters(client))
-
   -- Get the tests as a series of NuiNodes
 
   -- -- redister or custom stat provider to override the default libuv one
