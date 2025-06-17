@@ -57,19 +57,33 @@ M.navigate = function(state, path, path_to_reveal, callback, async)
     renderer.position.set(state, path_to_reveal)
   end
 
-  local items_to_render = items.neotest_as_items()
+  items.render_items(state)
 
   if type(callback) == "function" then
     vim.schedule(callback)
   end
-
-  renderer.show_nodes(items_to_render, state)
 end
 
 ---Configures the plugin, should be called before the plugin is used.
 ---@param config table Configuration table containing any keys that the user
 --wants to change from the defaults. May be empty to accept default values.
 M.setup = function(config, global_config)
+  local neotest_config = require("neotest.config")
+  -- vim.print(neotest_config)
+
+  local consumer = function(client)
+    vim.print(client)
+  end
+
+  -- add neotree as a consumer
+  if neotest_config.consumers == nil then
+    neotest_config.consumers = {
+      ["neotree"] = consumer
+    }
+  else
+    neotest_config.consumers["neotree"] = consumer
+  end
+
   -- Get the tests as a series of NuiNodes
 
   -- -- redister or custom stat provider to override the default libuv one
