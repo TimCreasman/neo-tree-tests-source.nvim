@@ -1,6 +1,5 @@
 local neotest_adapters = require("neotest.adapters")
-local items = require("tests.lib.items")
--- local neotest_client = require("neotest.client")
+local items = require("neo-tree.sources.tests.lib.items")
 
 local mock = require('luassert.mock')
 local stub = require('luassert.stub')

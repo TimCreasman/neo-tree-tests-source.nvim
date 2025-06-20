@@ -3,7 +3,7 @@ pcall(require, "luacov")
 local spy = require('luassert.spy')
 local mock = require('luassert.mock')
 local stub = require('luassert.stub')
-local tests_source = require("tests")
+local tests_source = require("neo-tree.sources.tests")
 
 describe("setup", function()
   it("should exist and execute with no defined arguments", function()

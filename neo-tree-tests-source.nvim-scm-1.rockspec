@@ -1,13 +1,12 @@
 rockspec_format = '3.0'
--- TODO: Rename this file and set the package
 package = "neo-tree-tests-source.nvim"
 version = "scm-1"
 source = {
-    -- TODO: Update this URL
-    url = "git+https://github.com/TimCreasman/neo-tree-tests"
+    url = "git+https://github.com/TimCreasman/neo-tree-tests-source.nvim"
 }
 dependencies = {
-    "neo-tree.nvim"
+    "neo-tree.nvim",
+    "neotest"
 }
 test_dependencies = {
     "nlua"
