@@ -36,9 +36,8 @@ M.render_items = function(state)
 
   nio.run(function()
     renderer.show_nodes({ M.neotest_as_items(state) }, state)
+    state.loading = false
   end)
-
-  state.loading = false
 end
 
 ---Visible for testing
@@ -60,28 +59,28 @@ M.neotest_as_items = function(state)
   for _, adapter_id in ipairs(client:get_adapters()) do
     local adapter_name = vim.split(adapter_id, ":", { trimempty = true })[1]
     local success, adapter_root = pcall(file_items.create_item, context, root.path .. "/" .. adapter_name, "directory")
-    -- adapter_root.name = adapter_name
-    -- adapter_root.loaded = true
-    -- adapter_root.search_pattern = state.search_pattern
-    -- context.folders[adapter_root.path] = adapter_root
 
-    local tree = assert(client:get_position(nil, { adapter = adapter_id }))
 
-    for _, node in tree:iter_nodes() do
-      local data = node:data()
-
-      local path = utils.insert_after(data.id, root.path .. "/", adapter_name .. "/")
-
-      if data.type == "namespace" or data.type == "test" then
-        path = path:gsub("::", "/")
-      end
-      local success, item = pcall(file_items.create_item, context, path, "directory")
-      if data.type ~= "dir" and data.type ~= "file" then
-        item.type = data.type
-      end
-    end
+    -- local tree = assert(client:get_position(nil, { adapter = adapter_id }))
+    --
+    -- for _, node in tree:iter_nodes() do
+    --   local data = node:data()
+    --   vim.print(data, root.path, adapter_name)
+    --
+    --   local path = utils.insert_after(data.id, root.path .. "/", adapter_name .. "/")
+    --
+    --   if data.type == "namespace" or data.type == "test" then
+    --     path = path:gsub("::", "/")
+    --   end
+    --   local success, item = pcall(file_items.create_item, context, path, "directory")
+    --   if data.type ~= "dir" and data.type ~= "file" then
+    --     item.type = data.type
+    --   end
+    -- end
   end
 
+
+  -- vim.print(context, root)
 
   -- state.default_expanded_nodes = {}
   -- for id, _ in pairs(context.folders) do

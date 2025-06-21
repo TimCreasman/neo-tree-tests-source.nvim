@@ -11,10 +11,6 @@ local M = {}
 ---@class neotree.Component.Tests
 ---@field [1] neotree.Component.Tests._Key|neotree.Component.Common._Key
 
---TODO don't need this?
----@class (exact) neotree.Component.Tests.Name : neotree.Component.Common.Name
----@field [1] "current_filter"?
-
 M.custom = function(config, node, state)
   local text = node.extra.custom_text or ""
   local highlight = highlights.DIM_TEXT
