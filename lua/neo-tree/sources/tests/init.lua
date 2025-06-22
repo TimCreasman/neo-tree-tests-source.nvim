@@ -18,6 +18,11 @@ M.navigate = function(state, path, path_to_reveal, callback, async)
     renderer.position.set(state, path_to_reveal)
   end
 
+  -- TODO is this the right place for this?
+  local adapter_group = require("neotest.adapters")()
+  local client = require("neotest.client")(adapter_group)
+
+  state.test_client = client
   items.render_items(state)
 
   if type(callback) == "function" then

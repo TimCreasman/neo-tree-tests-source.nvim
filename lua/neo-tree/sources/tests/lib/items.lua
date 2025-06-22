@@ -2,8 +2,17 @@ local utils = require("utils")
 local renderer = require("neo-tree.ui.renderer")
 local file_items = require("neo-tree.sources.common.file-items")
 local nio = require("nio")
+local neotest = require("neotest")
 
 local M = {}
+
+---@class neo-tree.Item.Extra
+---@field range integer[]
+---@field real_path string
+---@field test_id string
+
+---@class neotree.State
+---@field test_client neotest.Client
 
 --[[
 local function create_state(tabid, sd, winid)
@@ -46,8 +55,7 @@ M.neotest_as_items = function(state)
   local context = file_items.create_context()
   context.state = state
 
-  local adapter_group = require("neotest.adapters")()
-  local client = require("neotest.client")(adapter_group)
+  local client = state.test_client
 
   local root = file_items.create_item(context, state.path, "directory")
   root.name = vim.fn.fnamemodify(root.path, ":~")
@@ -57,30 +65,46 @@ M.neotest_as_items = function(state)
   -- Create item tree from neotest tree
   for _, adapter_id in ipairs(client:get_adapters()) do
     local adapter_name = vim.split(adapter_id, ":", { trimempty = true })[1]
-    local success, adapter_root = pcall(file_items.create_item, context, root.path .. "/" .. adapter_name, "directory")
-
+    local success, _ = pcall(file_items.create_item, context, root.path .. "/" .. adapter_name, "directory")
+    -- if ~success then
+    --   error("neotest_as_items: Could not create adapter root for " .. adapter_name)
+    -- end
 
     local tree = assert(client:get_position(nil, { adapter = adapter_id }))
+
+    -- state.test_client:run_tree(tree, {})
+    -- local results = state.test_client:get_results(adapter_id)
+    -- vim.print(results)
 
     for _, node in tree:iter_nodes() do
       local data = node:data()
 
-      -- TODO should I mark this so its easier to filter out later?
+      -- Create a psuedo path so that the tree falls under the adapter_name sub directory
       local path = utils.insert_after(data.id, root.path .. "/", adapter_name .. "/")
+
+      -- local result = results[data.id]
 
       if data.type == "namespace" or data.type == "test" then
         path = path:gsub("::", "/")
       end
 
       local success, item = pcall(file_items.create_item, context, path, "directory")
+      -- if ~success then
+      --   error("neotest_as_items: Could not create item for " .. path)
+      -- end
       item.adapter_name = adapter_name
       if data.type ~= "dir" then
         item.type = data.type
-        item.data = data
       end
+
+      ---@type neo-tree.Item.Extra
+      item.extra = {
+        range = data.range,
+        real_path = data.path,
+        test_id = data.id
+      }
     end
   end
-
 
   -- Expand all nodes
   state.default_expanded_nodes = {}

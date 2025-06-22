@@ -59,6 +59,7 @@ describe("render_items", function()
     assert.stub(neotest_as_items_mock).was_not.called()
     assert.truthy(mocked_state.loading)
   end)
+
   it("should call renderer with state and list of items", function()
     local mocked_items = {}
     local mocked_state = {}
