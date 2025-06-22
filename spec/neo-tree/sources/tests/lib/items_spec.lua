@@ -8,7 +8,7 @@ describe("neotest_as_items", function()
     assert.is.True(type(items.neotest_as_items(mocked_state)) == "table")
   end)
 
-  it("should list all adapters as directories under root", function()
+  it("should correctly format a basic testing tree", function()
     local mocked_state = { path = "/root" }
     local neotest_client = require("neotest.client")
     local neotest_tree = require("neotest.types.tree")
@@ -19,10 +19,13 @@ describe("neotest_as_items", function()
     mocked_client.get_adapters = function()
       return mocked_adapter_names
     end
+
+    -- Mocking this will create three children under each adapter, one for the test.lua, one for the namespace, and another for the test case itself
     mocked_client.get_position = function()
-      return neotest_tree.from_list({ id = "root/path" }, function()
-        return "root"
-      end)
+      return neotest_tree.from_list({ id = "/root/test.lua::\"namespace\"::\"test case description\"", type = "test" },
+        function()
+          return "root"
+        end)
     end
 
     -- TODO Is this the only way to mock classes?
@@ -32,9 +35,14 @@ describe("neotest_as_items", function()
 
     local items_to_render = items.neotest_as_items(mocked_state)
 
+    -- TODO validate the entire tree
     assert.are_equal(#mocked_adapter_names, #items_to_render.children)
+
     for i, child in ipairs(items_to_render.children) do
       assert.truthy(child.name == mocked_adapter_names[i])
+      -- the mocked child tree should have generated three generations
+      -- TODO find a better programatic way to check this
+      assert.truthy(child.children[1].children[1].children)
     end
   end)
 end)

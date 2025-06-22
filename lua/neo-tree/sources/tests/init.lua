@@ -2,6 +2,7 @@ local renderer = require("neo-tree.ui.renderer")
 local manager = require("neo-tree.sources.manager")
 local items = require("neo-tree.sources.tests.lib.items")
 local events = require("neo-tree.events")
+local defaults = require("neo-tree.sources.tests.defaults")
 
 local M = {
   name = "tests",
@@ -38,5 +39,7 @@ M.setup = function(config, global_config)
     })
   end
 end
+
+M.default_config = defaults
 
 return M

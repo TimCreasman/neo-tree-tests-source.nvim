@@ -5,6 +5,15 @@ local vim = vim
 
 local M = {}
 
+M.jump_to_test = function(state, node)
+  node = node or state.tree:get_node()
+  if node:get_depth() == 1 then
+    return
+  end
+  vim.print(node.adapter_name)
+end
+
+M.open = M.jump_to_test
 -- M.tests_command = function(state)
 --     local tree = state.tree
 --     local node = tree:get_node()

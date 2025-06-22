@@ -40,7 +40,6 @@ M.render_items = function(state)
   end)
 end
 
----Visible for testing
 ---@param state neotree.State
 ---@return neotree.FileItem.Directory
 M.neotest_as_items = function(state)
@@ -61,32 +60,34 @@ M.neotest_as_items = function(state)
     local success, adapter_root = pcall(file_items.create_item, context, root.path .. "/" .. adapter_name, "directory")
 
 
-    -- local tree = assert(client:get_position(nil, { adapter = adapter_id }))
-    --
-    -- for _, node in tree:iter_nodes() do
-    --   local data = node:data()
-    --   vim.print(data, root.path, adapter_name)
-    --
-    --   local path = utils.insert_after(data.id, root.path .. "/", adapter_name .. "/")
-    --
-    --   if data.type == "namespace" or data.type == "test" then
-    --     path = path:gsub("::", "/")
-    --   end
-    --   local success, item = pcall(file_items.create_item, context, path, "directory")
-    --   if data.type ~= "dir" and data.type ~= "file" then
-    --     item.type = data.type
-    --   end
-    -- end
+    local tree = assert(client:get_position(nil, { adapter = adapter_id }))
+
+    for _, node in tree:iter_nodes() do
+      local data = node:data()
+
+      -- TODO should I mark this so its easier to filter out later?
+      local path = utils.insert_after(data.id, root.path .. "/", adapter_name .. "/")
+
+      if data.type == "namespace" or data.type == "test" then
+        path = path:gsub("::", "/")
+      end
+
+      local success, item = pcall(file_items.create_item, context, path, "directory")
+      item.adapter_name = adapter_name
+      if data.type ~= "dir" then
+        item.type = data.type
+        item.data = data
+      end
+    end
   end
 
 
-  -- vim.print(context, root)
-
-  -- state.default_expanded_nodes = {}
-  -- for id, _ in pairs(context.folders) do
-  --   table.insert(state.default_expanded_nodes, id)
-  -- end
-  -- file_items.advanced_sort(root.children, state)
+  -- Expand all nodes
+  state.default_expanded_nodes = {}
+  for id, _ in pairs(context.folders) do
+    table.insert(state.default_expanded_nodes, id)
+  end
+  file_items.advanced_sort(root.children, state)
   return root
 end
 

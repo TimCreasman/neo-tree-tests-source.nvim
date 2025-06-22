@@ -6,19 +6,9 @@ local M = {}
 
 ---@alias neotree.Component.Tests._Key
 ---|"name"
----|"custom"
 
 ---@class neotree.Component.Tests
 ---@field [1] neotree.Component.Tests._Key|neotree.Component.Common._Key
-
-M.custom = function(config, node, state)
-  local text = node.extra.custom_text or ""
-  local highlight = highlights.DIM_TEXT
-  return {
-    text = text .. " ",
-    highlight = highlight,
-  }
-end
 
 ---@param config neotree.Component.Tests.Name
 M.name = function(config, node, state)
@@ -37,7 +27,6 @@ M.name = function(config, node, state)
       highlight = highlights.DIRECTORY_NAME
     end
   elseif node.type == "test" then
-    vim.print(node)
     highlight = highlights.DIM_TEXT
     -- TODO do I want this?
   elseif config.use_git_status_colors then
