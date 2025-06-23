@@ -89,7 +89,9 @@ local config = {
     }
   },
   window = {
-    mappings = {},
+    mappings = {
+      ["r"] = "run_tests",
+    },
   },
 }
 

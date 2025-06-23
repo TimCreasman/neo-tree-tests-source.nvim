@@ -6,7 +6,7 @@ local defaults = require("neo-tree.sources.tests.defaults")
 
 local M = {
   name = "tests",
-  display_name = "Tests"
+  display_name = " 󰊢 Tests"
 }
 
 ---Navigate to the given path.

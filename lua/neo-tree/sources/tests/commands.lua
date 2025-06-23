@@ -1,5 +1,6 @@
 local cc = require("neo-tree.sources.common.commands")
 local utils = require("neo-tree.utils")
+local nio = require("nio")
 
 local M = {}
 
@@ -33,8 +34,17 @@ M.jump_to_test = function(state, toggle_directory)
   end
 end
 
-M.run_tests = function()
-  local results = self.client:get_results(adapter_id)
+
+---@param state neo-tree.State
+M.run_tests = function(state)
+  local neotest = require("neotest")
+  local tree = state.tree
+  local node = tree:get_node()
+  if node.extra.test_id then
+    nio.run(function()
+      neotest.run.run({ node.extra.test_id })
+    end)
+  end
 end
 
 M.open = M.jump_to_test
