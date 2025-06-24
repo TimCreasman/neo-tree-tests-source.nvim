@@ -3,6 +3,7 @@ require("neotest.types")
 local manager = require("neo-tree.sources.manager")
 local config = require("neotest.config")
 local nio = require("nio")
+local neotree_source = require("neo-tree.sources.tests")
 
 local events = {
   open = "NeotestNeotreeOpen",
@@ -45,57 +46,10 @@ end
 
 local all_expanded = {}
 
----@param canvas neotest.summary.Canvas
----@param adapter_id string
-function Neotree:_write_header(canvas, adapter_id, tree)
-  -- canvas:write(
-  --   vim.split(adapter_id, ":", { trimempty = true })[1] .. " ",
-  --   { group = config.highlights.adapter_name }
-  -- )
-  --
-  -- if config.summary.count then
-  --   local status_counts = {
-  --     test = 0,
-  --     running = 0,
-  --     passed = 0,
-  --     failed = 0,
-  --     skipped = 0,
-  --   }
-  --   local results = self.client:get_results(adapter_id)
-  --
-  --   for _, pos in tree:iter() do
-  --     if pos.type == "test" then
-  --       status_counts.test = status_counts.test + 1
-  --
-  --       local result = results[pos.id]
-  --
-  --       if result and status_counts[result.status] ~= nil then
-  --         status_counts[result.status] = status_counts[result.status] + 1
-  --       elseif self.client:is_running(pos.id, { adapter = adapter_id }) then
-  --         status_counts.running = status_counts.running + 1
-  --       end
-  --     end
-  --   end
-  --
-  --   for _, status in ipairs({ "test", "passed", "failed", "running", "skipped" }) do
-  --     canvas:write(
-  --       config.icons[status] .. " " .. tostring(status_counts[status]) .. " ",
-  --       { group = config.highlights[status] or config.highlights.namespace }
-  --     )
-  --   end
-  -- end
-  -- canvas:write("\n")
-  --
-  -- local cwd = vim.loop.cwd()
-  -- if tree:data().path ~= cwd then
-  --   local root_dir = nio.fn.fnamemodify(tree:data().path, ":.")
-  --   canvas:write(root_dir .. "\n", { group = config.highlights.dir })
-  -- end
-end
-
+-- TODO implement animation
 function Neotree:render(expanded)
   vim.schedule(function()
-    manager.redraw("tests")
+    manager.redraw(neotree_source.name)
   end)
   -- if not self.win:is_open() then
   --   return

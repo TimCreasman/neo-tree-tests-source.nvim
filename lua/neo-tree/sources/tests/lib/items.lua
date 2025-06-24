@@ -5,23 +5,6 @@ local nio = require("nio")
 
 local M = {}
 
---[[
-local function create_state(tabid, sd, winid)
-  nt.ensure_config()
-  local default_config = default_configs[sd.name]
-  local state = vim.deepcopy(default_config, compat.noref())
-  state.tabid = tabid
-  state.id = winid or tabid
-  state.dirty = true
-  state.position = {}
-  state.git_base = "HEAD"
-  state.sort = { label = "Name", direction = 1 }
-  events.fire_event(events.STATE_CREATED, state)
-  table.insert(all_states, state)
-  return state
-end
-]]
-
 ---Convert the neotesst state to a neotree state.
 ---@param state neotree-neotest.State
 M.render_items = function(state)
@@ -92,7 +75,6 @@ M.neotest_as_items = function(state)
   end
 
   -- Expand all nodes
-  -- TODO get the tests to pass with this enabled
   state.default_expanded_nodes = {}
   for id, _ in pairs(context.folders) do
     table.insert(state.default_expanded_nodes, id)

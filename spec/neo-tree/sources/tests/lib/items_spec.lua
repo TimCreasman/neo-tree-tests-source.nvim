@@ -1,7 +1,7 @@
 local items = require("neo-tree.sources.tests.lib.items")
 local default_config = require("neo-tree.sources.tests.defaults")
 local stub = require('luassert.stub')
---[[
+
 describe("neotest_as_items", function()
   local mocked_state = {}
   local mocked_adapter_names = {}
@@ -9,6 +9,7 @@ describe("neotest_as_items", function()
   before_each(function()
     local neotest_tree = require("neotest.types.tree")
     local neotest_client = require("neotest.client")
+    stub(require("neo-tree.sources.common.file-items"), "advanced_sort")
 
     local mocked_client = neotest_client()
     mocked_adapter_names = { "adapter_1", "adapter_2" }
@@ -25,14 +26,9 @@ describe("neotest_as_items", function()
         end)
     end
 
-    -- TODO Is this the only way to mock classes?
-    -- package.loaded["neotest.client"] = function(_)
-    --   return mocked_client
-    -- end
-
     mocked_state = {
       path = "/root",
-      test_client = mocked_client,
+      neotest_client = mocked_client,
       config = default_config
     }
   end)
@@ -85,4 +81,4 @@ describe("render_items", function()
     assert.False(mocked_state.loading)
     assert.stub(neotest_as_items_mock).was.called()
   end)
-end) ]]
+end)
