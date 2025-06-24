@@ -91,6 +91,7 @@ local config = {
   window = {
     mappings = {
       ["r"] = "run_tests",
+      ["R"] = "run_all_tests",
     },
   },
 }

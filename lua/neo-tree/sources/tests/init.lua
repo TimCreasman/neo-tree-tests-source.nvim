@@ -9,7 +9,8 @@ local M = {
   display_name = " 󰊢 Tests"
 }
 
----Navigate to the given path.
+---Navigate to the given path. Navigates to a source, can be used to setup data on first navigation.
+---@param state neotree-neotest.State
 ---@param path string Path to navigate to. If empty, will navigate to the cwd.
 M.navigate = function(state, path, path_to_reveal, callback, async)
   state.path = path or state.path
@@ -18,11 +19,12 @@ M.navigate = function(state, path, path_to_reveal, callback, async)
     renderer.position.set(state, path_to_reveal)
   end
 
-  -- TODO is this the right place for this?
-  local adapter_group = require("neotest.adapters")()
-  local client = require("neotest.client")(adapter_group)
 
-  state.test_client = client
+  vim.print("TEST NAV")
+  state.neotest_client = require("neotest.consumers.neotree").get_client()
+  -- local adapter_group = require("neotest.adapters")()
+  -- state.neotest_client = require("neotest.client")(adapter_group)
+
   items.render_items(state)
 
   if type(callback) == "function" then

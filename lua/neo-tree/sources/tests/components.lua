@@ -10,7 +10,7 @@ local M = {}
 ---@class neotree.Component.Tests
 ---@field [1] neotree.Component.Tests._Key|neotree.Component.Common._Key
 
----@param config neotree.Component.Tests.Name
+---@param config neotree.Component.Common.Name
 M.name = function(config, node, state)
   local highlight = config.highlight or highlights.FILE_NAME_OPENED
   local name = node.name
@@ -40,6 +40,31 @@ M.name = function(config, node, state)
     text = name,
     highlight = highlight,
   }
+end
+
+---@param config neotree.Component.Common.Icon
+---@param state neotree-neotest.State
+M.icon = function(config, node, state)
+  local icon = {}
+
+  if node.type == "directory" or node.type == "file" then
+    icon = common.icon(config, node, state)
+  elseif node.type == "namespace" or node.type == "test" then
+    local client = state.neotest_client
+    -- TODO should highlights/icons come from neotree or neotest??
+    local neotest_config = require("neotest.config")
+
+    -- TODO don't just get the first adapter, maybe add it to the node.extra?
+    local adapter = client:get_adapters()[1]
+    local node_test_result = client:get_results(adapter)[node.extra.test_id]
+
+    if node_test_result then
+      icon.text = neotest_config.icons[node_test_result.status]
+      icon.highlight = neotest_config.highlights[node_test_result.status]
+    end
+  end
+
+  return icon
 end
 
 return vim.tbl_deep_extend("force", common, M)

@@ -1,9 +1,9 @@
 require("neotest.types")
 
----@class neo-tree.Item.Extra
+---@class neotree-neotest.Item.Extra
 ---@field range integer[]
 ---@field real_path string
 ---@field test_id string
 
----@class neo-tree.State
----@field test_client neotest.Client
+---@class neotree-neotest.State
+---@field neotest_client neotest.Client

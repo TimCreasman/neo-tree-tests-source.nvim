@@ -1,6 +1,7 @@
 local cc = require("neo-tree.sources.common.commands")
 local utils = require("neo-tree.utils")
 local nio = require("nio")
+local manager = require("neo-tree.sources.manager")
 
 local M = {}
 
@@ -10,7 +11,7 @@ M.jump_to_test = function(state, toggle_directory)
     return
   end
 
-  ---@type neo-tree.Item.Extra
+  ---@type neotree-neotest.Item.Extra
   local extra = node.extra
   local _type = node.type
 
@@ -34,17 +35,28 @@ M.jump_to_test = function(state, toggle_directory)
   end
 end
 
-
----@param state neo-tree.State
+---@param state neotree-neotest.State
 M.run_tests = function(state)
   local neotest = require("neotest")
   local tree = state.tree
   local node = tree:get_node()
-  if node.extra.test_id then
+  local client = state.neotest_client
+
+  -- This should always exist but can never be too sure
+  if node.extra then
     nio.run(function()
-      neotest.run.run({ node.extra.test_id })
+      -- TODO find a way to not have to break the typings to call this
+      local test_tree = neotest.run.get_tree_from_args({ node.extra.test_id }, true)
+      client:run_tree(test_tree, { node.extra.test_id })
+
+      vim.schedule(function()
+        manager.redraw("tests")
+      end)
     end)
   end
+end
+
+M.run_all_tests = function(state)
 end
 
 M.open = M.jump_to_test

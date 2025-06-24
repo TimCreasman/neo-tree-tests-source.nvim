@@ -1,7 +1,6 @@
 local items = require("neo-tree.sources.tests.lib.items")
 local default_config = require("neo-tree.sources.tests.defaults")
 local stub = require('luassert.stub')
-local nt = require("neo-tree")
 
 describe("neotest_as_items", function()
   local mocked_state = {}
