@@ -49,9 +49,9 @@ M.run_tests = function(state)
       local test_tree = neotest.run.get_tree_from_args({ node.extra.test_id }, true)
       client:run_tree(test_tree, { node.extra.test_id })
 
-      vim.schedule(function()
-        manager.redraw("tests")
-      end)
+      -- vim.schedule(function()
+      --   manager.redraw("tests")
+      -- end)
     end)
   end
 end

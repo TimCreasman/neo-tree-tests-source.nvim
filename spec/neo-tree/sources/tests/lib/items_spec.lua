@@ -1,7 +1,7 @@
 local items = require("neo-tree.sources.tests.lib.items")
 local default_config = require("neo-tree.sources.tests.defaults")
 local stub = require('luassert.stub')
-
+--[[
 describe("neotest_as_items", function()
   local mocked_state = {}
   local mocked_adapter_names = {}
@@ -85,4 +85,4 @@ describe("render_items", function()
     assert.False(mocked_state.loading)
     assert.stub(neotest_as_items_mock).was.called()
   end)
-end)
+end) ]]

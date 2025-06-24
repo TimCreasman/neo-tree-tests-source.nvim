@@ -14,9 +14,8 @@ local neotree_consumer
 ---@private
 local function init(client)
   neotree_consumer = Neotree(client)
-  --[[
   local listener = function()
-    summary:render()
+    neotree_consumer:render()
   end
 
   client.listeners.discover_positions = listener
@@ -24,22 +23,23 @@ local function init(client)
 
   client.listeners.results = function(adapter_id, results)
     if not config.summary.expand_errors then
-      summary:render()
+      neotree_consumer:render()
       return
     end
     local expanded = {}
     for pos_id, result in pairs(results) do
       if
-        result.status == "failed"
-        and client:get_position(pos_id, { adapter = adapter_id })
-        and #client:get_position(pos_id, { adapter = adapter_id }):children() > 0
+          result.status == "failed"
+          and client:get_position(pos_id, { adapter = adapter_id })
+          and #client:get_position(pos_id, { adapter = adapter_id }):children() > 0
       then
         expanded[pos_id] = true
       end
     end
-    summary:render(expanded)
+    neotree_consumer:render(expanded)
   end
 
+  --[[
   client.listeners.starting = function()
     summary:set_starting()
   end
@@ -205,6 +205,7 @@ end
 ]] --
 
 -- "Cheat" and expose the attached client:
+-- Eventually we will want to only expose necessary client functions via the consumer api
 function neotest.neotree.get_client()
   return neotree_consumer.client
 end

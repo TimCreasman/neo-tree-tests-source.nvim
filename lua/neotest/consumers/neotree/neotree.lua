@@ -1,12 +1,12 @@
 local lib = require("neotest.lib")
 require("neotest.types")
-local logger = require("neotest.logging")
+local manager = require("neo-tree.sources.manager")
 local config = require("neotest.config")
 local nio = require("nio")
 
 local events = {
-  open = "NeotestSummaryOpen",
-  close = "NeotestSummaryClose",
+  open = "NeotestNeotreeOpen",
+  close = "NeotestNeotreeClose",
 }
 
 ---@class neotest.Neotree
@@ -24,14 +24,6 @@ function Neotree:new(client)
   self.__index = self
   return setmetatable({
     client = client,
-    win = lib.persistent_window.panel({
-      name = "Neotest Summary",
-      open = config.summary.open,
-      bufopts = {
-        filetype = "neotest-summary",
-      },
-    }),
-    components = {},
     render_ready = nio.control.event(),
     focused = nil,
     running = false,
@@ -102,6 +94,9 @@ function Neotree:_write_header(canvas, adapter_id, tree)
 end
 
 function Neotree:render(expanded)
+  vim.schedule(function()
+    manager.redraw("tests")
+  end)
   -- if not self.win:is_open() then
   --   return
   -- end
