@@ -9,9 +9,12 @@ Done:
     ~Neotest gives the same client to all its consumers but I have to create my own...~
     ~Maybe creating a faux consumer is the correct route?~ Faux-consumer ftw!
 - [x] Add test runner feedback (icons, status, etc.) 
+- [x] Show results up the tree
+- [x] Fix not collapsing files
 
 Next:
-- [ ] Fix not collapsing files
+
+- [ ] Updated results up the tree when a child's status changes
 
 Later:
 
