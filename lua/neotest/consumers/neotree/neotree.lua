@@ -123,19 +123,6 @@ function Neotree:run(context, root, create_item)
   return root
 end
 
----Runs all tests at a specific NuiNode
----@param node neotree-neotest.Item
-function Neotree:run_tests_at_node(node)
-  -- We cannot run tests without the extra node data
-  if not node.extra then
-    return
-  end
-
-  nio.run(function()
-    require("neotest").run.run({ node.extra.test_id, adapter = node.extra.adapter_id })
-  end)
-end
-
 ---Runs all tests under a specific node, or all tests if no node is supplied
 ---@param node? neotree-neotest.Item
 function Neotree:run_tests(node)

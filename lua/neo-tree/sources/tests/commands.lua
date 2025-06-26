@@ -39,12 +39,12 @@ end
 M.run_tests = function(state)
   local tree = state.tree
   local node = tree:get_node()
-  require("neotest.consumers.neotree").run_tests_at_node(node)
+  require("neotest.consumers.neotree").run_tests(node)
 end
 
 ---@param state neotree-neotest.State
 M.run_all_tests = function(state)
-  require("neotest.consumers.neotree").run_all_tests()
+  require("neotest.consumers.neotree").run_tests()
 end
 
 M.open = M.jump_to_test

@@ -107,14 +107,9 @@ function neotest.neotree.get_results(test_id, adapter_id)
 end
 
 ---Run tests
----@param node neotree-neotest.Item
----@return unknown
-function neotest.neotree.run_tests_at_node(node)
-  return neotree_consumer:run_tests_at_node(node)
-end
-
-function neotest.neotree.run_all_tests()
-  return neotree_consumer:run_all_tests()
+---@param node? neotree-neotest.Item
+function neotest.neotree.run_tests(node)
+  neotree_consumer:run_tests(node)
 end
 
 --[[
