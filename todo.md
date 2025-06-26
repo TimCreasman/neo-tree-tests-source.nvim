@@ -11,12 +11,18 @@ Done:
 - [x] Add test runner feedback (icons, status, etc.) 
 - [x] Show results up the tree
 - [x] Fix not collapsing files
+- [x] Run all tests with 'R' by default
+- [x] Switch all uses of the client to call the neotree consumer instead
+- [x] Fix run all tests only running one adapter and not both
 
 Next:
 
-- [ ] Updated results up the tree when a child's status changes
+- [ ] Implement watching a test with 'w'
 
 Later:
+
+- [ ] Updated results up the tree when a child's status changes
+- [ ] Implement calling test output with 'o'
 
 - [ ] Initial call to Tests items lags (async?)
 - [ ] How to run neotest apis (aka 'r' on a test, etc.) with neotest config?

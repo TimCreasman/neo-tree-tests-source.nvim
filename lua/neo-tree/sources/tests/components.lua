@@ -6,6 +6,7 @@ local M = {}
 
 ---@alias neotree.Component.Tests._Key
 ---|"name"
+---|"icon"
 
 ---@class neotree.Component.Tests
 ---@field [1] neotree.Component.Tests._Key|neotree.Component.Common._Key
@@ -34,7 +35,6 @@ M.name = function(config, node, state)
     if git_status and git_status.highlight then
       highlight = git_status.highlight
     end
-    -- elseif node.e then
   end
   return {
     text = name,
@@ -47,18 +47,18 @@ end
 M.icon = function(config, node, state)
   local icon = {
     text = "",
+    highlight = "",
   }
 
   if node.type == "directory" or node.type == "file" then
     icon = common.icon(config, node, state)
   end
-  local client = state.neotest_client
   -- TODO should highlights/icons come from neotree or neotest??
   local neotest_config = require("neotest.config")
 
-  -- TODO don't just get the first adapter, maybe add it to the node.extra?
-  local adapter = client:get_adapters()[1]
-  local node_test_result = client:get_results(adapter)[node.extra.test_id]
+  local test_id = node.extra and node.extra.test_id or node.id
+  local adapter_id = node.extra and node.extra.adapter_id or nil
+  local node_test_result = require("neotest.consumers.neotree").get_results(test_id, adapter_id)
 
   if node_test_result then
     icon.text = icon.text .. neotest_config.icons[node_test_result.status]

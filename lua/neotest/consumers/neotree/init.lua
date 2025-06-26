@@ -1,6 +1,6 @@
 local lib = require("neotest.lib")
 local nio = require("nio")
-local Neotree = require("lua.neotest.consumers.neotree.neotree")
+local Neotree = require("neotest.consumers.neotree.neotree")
 local config = require("neotest.config")
 
 -- TODO change this type
@@ -26,6 +26,7 @@ local function init(client)
       neotree_consumer:render()
       return
     end
+    -- TODO Implement expand on fail
     local expanded = {}
     for pos_id, result in pairs(results) do
       if
@@ -87,14 +88,36 @@ local neotest = {}
 neotest.neotree = {}
 
 -- TODO do I need an exposed api like this?
---[[
 
-
----@private
-neotest.neotree.render = function(positions)
-  -- summary:render(positions)
+function neotest.neotree.get_test_tree(adapter_id)
+  return neotree_consumer:get_test_tree(adapter_id)
 end
 
+---Bootstraps the neo-tree view with the test adapter tree
+---@param context table
+---@param root table
+---@param create_item function
+---@return table
+function neotest.neotree.run(context, root, create_item)
+  return neotree_consumer:run(context, root, create_item)
+end
+
+function neotest.neotree.get_results(test_id, adapter_id)
+  return neotree_consumer:get_results(test_id, adapter_id)
+end
+
+---Run tests
+---@param node neotree-neotest.Item
+---@return unknown
+function neotest.neotree.run_tests_at_node(node)
+  return neotree_consumer:run_tests_at_node(node)
+end
+
+function neotest.neotree.run_all_tests()
+  return neotree_consumer:run_all_tests()
+end
+
+--[[
 --- Open the summary window
 --- ```vim
 ---   lua require("neotest").summary.open()

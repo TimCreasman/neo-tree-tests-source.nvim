@@ -16,4 +16,13 @@ M.insert_after = function(str, substring, insert_str)
   end
 end
 
+---@param str string
+M.get_path_from_adapter_id = function(str)
+  local res = string.match(str, ":(.*)")
+  if res == "" then
+    return nil
+  end
+  return res
+end
+
 return M

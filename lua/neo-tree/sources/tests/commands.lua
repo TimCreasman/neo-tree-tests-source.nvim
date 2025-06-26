@@ -7,7 +7,7 @@ local M = {}
 
 M.jump_to_test = function(state, toggle_directory)
   local node = state.tree:get_node()
-  if node == nil then
+  if not node or not node.extra then
     return
   end
 
@@ -37,26 +37,14 @@ end
 
 ---@param state neotree-neotest.State
 M.run_tests = function(state)
-  local neotest = require("neotest")
   local tree = state.tree
   local node = tree:get_node()
-  local client = state.neotest_client
-
-  -- This should always exist but can never be too sure
-  if node.extra then
-    nio.run(function()
-      -- TODO find a way to not have to break the typings to call this
-      local test_tree = neotest.run.get_tree_from_args({ node.extra.test_id }, true)
-      client:run_tree(test_tree, { node.extra.test_id })
-
-      -- vim.schedule(function()
-      --   manager.redraw("tests")
-      -- end)
-    end)
-  end
+  require("neotest.consumers.neotree").run_tests_at_node(node)
 end
 
+---@param state neotree-neotest.State
 M.run_all_tests = function(state)
+  require("neotest.consumers.neotree").run_all_tests()
 end
 
 M.open = M.jump_to_test

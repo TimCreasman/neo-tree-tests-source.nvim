@@ -19,10 +19,6 @@ M.navigate = function(state, path, path_to_reveal, callback, async)
     renderer.position.set(state, path_to_reveal)
   end
 
-
-  vim.print("TEST NAV")
-  state.neotest_client = require("neotest.consumers.neotree").get_client()
-  -- local adapter_group = require("neotest.adapters")()
   -- state.neotest_client = require("neotest.client")(adapter_group)
 
   items.render_items(state)
@@ -36,14 +32,15 @@ end
 ---@param config table Configuration table containing any keys that the user
 --wants to change from the defaults. May be empty to accept default values.
 M.setup = function(config, global_config)
+  -- Maybe use this for watching and re-running tests?
   if config.use_libuv_file_watcher then
     -- TODO figure out how we wna tot react to events?
-    manager.subscribe(M.name, {
-      event = events.FS_EVENT,
-      handler = function(args)
-        manager.refresh(M.name)
-      end,
-    })
+    -- manager.subscribe(M.name, {
+    --   event = events.FS_EVENT,
+    --   handler = function(args)
+    --     manager.refresh(M.name)
+    --   end,
+    -- })
   end
 end
 

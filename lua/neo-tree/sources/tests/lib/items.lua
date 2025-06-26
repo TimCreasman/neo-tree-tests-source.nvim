@@ -1,12 +1,9 @@
-local utils = require("utils")
 local renderer = require("neo-tree.ui.renderer")
 local file_items = require("neo-tree.sources.common.file-items")
 local nio = require("nio")
 
 local M = {}
 
----Convert the neotesst state to a neotree state.
----@param state neotree-neotest.State
 M.render_items = function(state)
   if state.loading then
     return
@@ -23,56 +20,22 @@ M.render_items = function(state)
   end)
 end
 
----@param state neotree-neotest.State
 ---@return neotree.FileItem.Directory
 M.neotest_as_items = function(state)
   local context = file_items.create_context()
   context.state = state
 
-  local client = state.neotest_client
+  local neotree_consumer = require("neotest.consumers.neotree")
 
+  -- TODO is context a part of root or vice versa?
   local root = file_items.create_item(context, state.path, "directory")
   root.name = vim.fn.fnamemodify(root.path, ":~")
   root.loaded = true
   root.search_pattern = state.search_pattern
   context.folders[root.path] = root
-  -- Create item tree from neotest tree
-  for _, adapter_id in ipairs(client:get_adapters()) do
-    local adapter_name = vim.split(adapter_id, ":", { trimempty = true })[1]
-    local success, _ = pcall(file_items.create_item, context, root.path .. "/" .. adapter_name, "directory")
-    if not success then
-      error("neotest_as_items: Could not create adapter root for " .. adapter_name)
-    end
 
-    local tree = assert(client:get_position(nil, { adapter = adapter_id }))
-
-    for _, node in tree:iter_nodes() do
-      local data = node:data()
-
-      -- Create a psuedo path so that the tree falls under the adapter_name sub directory
-      local path = utils.insert_after(data.id, root.path .. "/", adapter_name .. "/")
-
-      if data.type == "namespace" or data.type == "test" then
-        path = path:gsub("::", "/")
-      end
-
-      local success, item = pcall(file_items.create_item, context, path, "directory")
-      if not success then
-        error("neotest_as_items: Could not create item for " .. path)
-      end
-      item.adapter_name = adapter_name
-      if data.type ~= "dir" then
-        item.type = data.type
-      end
-
-      ---@type neotree-neotest.Item.Extra
-      item.extra = {
-        range = data.range,
-        real_path = data.path,
-        test_id = data.id
-      }
-    end
-  end
+  -- Convert neotest to neotree NuiNodes
+  root = neotree_consumer.run(context, root, file_items.create_item)
 
   -- Expand all nodes
   state.default_expanded_nodes = {}
@@ -80,6 +43,7 @@ M.neotest_as_items = function(state)
     table.insert(state.default_expanded_nodes, id)
   end
   file_items.advanced_sort(root.children, state)
+
   return root
 end
 

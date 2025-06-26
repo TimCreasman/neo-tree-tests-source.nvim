@@ -1,11 +1,15 @@
 local items = require("neo-tree.sources.tests.lib.items")
 local default_config = require("neo-tree.sources.tests.defaults")
 local stub = require('luassert.stub')
+local consumer_init = require("neotest.consumers.neotree")
+local a = require("nio").tests
 
+-- TODO move mocks to common space
 describe("neotest_as_items", function()
   local mocked_state = {}
   local mocked_adapter_names = {}
 
+  -- TODO clean this up
   before_each(function()
     local neotest_tree = require("neotest.types.tree")
     local neotest_client = require("neotest.client")
@@ -13,9 +17,15 @@ describe("neotest_as_items", function()
 
     local mocked_client = neotest_client()
     mocked_adapter_names = { "adapter_1", "adapter_2" }
+    consumer_init(mocked_client)
 
     mocked_client.get_adapters = function()
       return mocked_adapter_names
+    end
+
+    -- Is this the only way to mock classes?
+    package.loaded["neotest.client"] = function(_)
+      return mocked_client
     end
 
     -- Mocking this will create three children under each adapter, one for the test.lua, one for the namespace, and another for the test case itself
@@ -28,16 +38,15 @@ describe("neotest_as_items", function()
 
     mocked_state = {
       path = "/root",
-      neotest_client = mocked_client,
       config = default_config
     }
   end)
 
-  it("should return a table", function()
+  a.it("should return a table", function()
     assert.is.True(type(items.neotest_as_items(mocked_state)) == "table")
   end)
 
-  it("should correctly format a basic testing tree", function()
+  a.it("should correctly format a basic testing tree", function()
     local items_to_render = items.neotest_as_items(mocked_state)
 
     -- TODO validate the entire tree
@@ -50,10 +59,15 @@ describe("neotest_as_items", function()
       assert.truthy(child.children[1].children[1].children)
     end
   end)
+
+  a.it("should contain all adapter names in the root item", function()
+    local items_to_render = items.neotest_as_items(mocked_state)
+    assert.same(items_to_render.extra.adapter_ids, mocked_adapter_names)
+  end)
 end)
 
 describe("render_items", function()
-  it("should immediately return if state is already loading", function()
+  a.it("should immediately return if state is already loading", function()
     local mocked_state = { loading = true }
 
     local neotest_as_items_mock = stub(items, "neotest_as_items")
@@ -65,7 +79,7 @@ describe("render_items", function()
     assert.truthy(mocked_state.loading)
   end)
 
-  it("should call renderer with state and list of items", function()
+  a.it("should call renderer with state and list of items", function()
     local mocked_items = {}
     local mocked_state = {}
 
