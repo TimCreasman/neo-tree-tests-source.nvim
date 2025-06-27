@@ -1,33 +1,30 @@
-local renderer = require("neo-tree.ui.renderer")
-local file_items = require("neo-tree.sources.common.file-items")
-local nio = require("nio")
-
 local M = {}
 
 M.render_items = function(state)
+  local nio = require("nio")
+
   if state.loading then
     return
   end
 
   state.loading = true
 
-  -- TODO what is the correct path?
-  state.path = --[[ project_root or state.path or ]] vim.fn.getcwd()
+  state.path = vim.fn.getcwd()
 
   nio.run(function()
-    renderer.show_nodes({ M.neotest_as_items(state) }, state)
+    require("neo-tree.ui.renderer").show_nodes({ M.neotest_as_items(state) }, state)
     state.loading = false
   end)
 end
 
 ---@return neotree.FileItem.Directory
 M.neotest_as_items = function(state)
+  local file_items = require("neo-tree.sources.common.file-items")
   local context = file_items.create_context()
   context.state = state
 
   local neotree_consumer = require("neotest.consumers.neotree")
 
-  -- TODO is context a part of root or vice versa?
   local root = file_items.create_item(context, state.path, "directory")
   root.name = vim.fn.fnamemodify(root.path, ":~")
   root.loaded = true

@@ -43,7 +43,7 @@ describe("Neotree Consumer", function()
       ---@type neotree-neotest.Item
       local mocked_node = {
         extra = {
-          test_id = 'home/path::"namespace"::"test_name"',
+          position_id = 'home/path::"namespace"::"test_name"',
           real_path = "home/path",
           adapter_id = "adapter_1"
         }
@@ -51,15 +51,15 @@ describe("Neotree Consumer", function()
       neotree_consumer:run_tests(mocked_node)
       assert.stub(mocked_test_runner.run).was.called(1)
       assert.stub(mocked_test_runner.run).was_called_with(match.is_same(
-        { mocked_node.extra.test_id, adapter = mocked_node.extra.adapter_id }
+        { mocked_node.extra.position_id, adapter = mocked_node.extra.adapter_id }
       ))
     end)
 
-    a.it("should do nothing if the node has no adapter_id or test_id", function()
+    a.it("should do nothing if the node has no adapter_id or position_id", function()
       ---@type neotree-neotest.Item
       local mocked_node = {
         extra = {
-          test_id = 'home/path::"namespace"::"test_name"',
+          position_id = 'home/path::"namespace"::"test_name"',
           real_path = "home/path",
         }
       }
@@ -98,7 +98,7 @@ describe("Neotree Consumer", function()
       ---@type neotree-neotest.Item
       local mocked_node = {
         extra = {
-          test_id = 'home/path::"namespace"::"test_name"',
+          position_id = 'home/path::"namespace"::"test_name"',
           real_path = "home/path",
           adapter_id = "adapter_1"
         }
@@ -106,15 +106,15 @@ describe("Neotree Consumer", function()
       neotree_consumer:watch(mocked_node)
       assert.stub(mocked_test_watcher.toggle).was.called(1)
       assert.stub(mocked_test_watcher.toggle).was_called_with(match.is_same(
-        { mocked_node.extra.test_id, adapter = mocked_node.extra.adapter_id }
+        { mocked_node.extra.position_id, adapter = mocked_node.extra.adapter_id }
       ))
     end)
 
-    a.it("should do nothing if the node has no adapter_id or test_id", function()
+    a.it("should do nothing if the node has no adapter_id or position_id", function()
       ---@type neotree-neotest.Item
       local mocked_node = {
         extra = {
-          test_id = 'home/path::"namespace"::"test_name"',
+          position_id = 'home/path::"namespace"::"test_name"',
           real_path = "home/path",
         }
       }

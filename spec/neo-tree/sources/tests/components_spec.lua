@@ -1,21 +1,20 @@
 local mock = require("luassert.mock")
-local stub = require("luassert.stub")
 local components = require("neo-tree.sources.tests.components")
-local a = require("nio.tests")
 
 describe("icon", function()
-  -- TODO add this to all test bootstraps?
   require("neotest").setup({})
+
   local mocked_cc = mock(require("neo-tree.sources.common.components"), true)
   local mocked_consumer = mock(require("neotest.consumers.neotree"), true)
   local mocked_results = mock(require("neotest.consumers.neotree"), true)
   local mocked_test_watcher = mock(require("neotest").watch, true)
+
   local icon_text = "Folder"
   local passed_icon = require("neotest.config").icons["passed"]
   local failed_icon = require("neotest.config").icons["failed"]
   local watched_icon = require("neotest.config").icons["watching"]
 
-  a.before_each(function()
+  before_each(function()
     mocked_cc.icon = function()
       return {
         text = icon_text,
@@ -34,7 +33,7 @@ describe("icon", function()
     end
   end)
 
-  a.it("should append status icons to existing neo-tree icons", function()
+  it("should append status icons to existing neo-tree icons", function()
     local icon = components.icon({}, {
       type = "directory"
     }, {})
@@ -43,7 +42,7 @@ describe("icon", function()
     assert.is_same(icon_text .. passed_icon, icon.text)
   end)
 
-  a.it("should append watcher icon to existing neo-tree icons", function()
+  it("should append watcher icon to existing neo-tree icons", function()
     mocked_test_watcher.is_watching = function(_)
       return true
     end

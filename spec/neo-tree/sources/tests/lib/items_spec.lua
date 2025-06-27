@@ -4,12 +4,10 @@ local stub = require('luassert.stub')
 local consumer_init = require("neotest.consumers.neotree")
 local a = require("nio").tests
 
--- TODO move mocks to common space
 describe("neotest_as_items", function()
   local mocked_state = {}
   local mocked_adapter_names = {}
 
-  -- TODO clean this up
   before_each(function()
     local neotest_tree = require("neotest.types.tree")
     local neotest_client = require("neotest.client")
@@ -49,13 +47,11 @@ describe("neotest_as_items", function()
   a.it("should correctly format a basic testing tree", function()
     local items_to_render = items.neotest_as_items(mocked_state)
 
-    -- TODO validate the entire tree
     assert.are_equal(#mocked_adapter_names, #items_to_render.children)
 
     for i, child in ipairs(items_to_render.children) do
       assert.truthy(child.name == mocked_adapter_names[i])
       -- the mocked child tree should have generated three generations
-      -- TODO find a better programatic way to check this
       assert.truthy(child.children[1].children[1].children)
     end
   end)

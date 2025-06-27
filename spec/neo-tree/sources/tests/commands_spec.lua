@@ -2,8 +2,6 @@ local commands = require("neo-tree.sources.tests.commands")
 local stub = require('luassert.stub')
 local mock = require('luassert.mock')
 local match = require("luassert.match")
--- local cc =
---     cc.open(state, toggle_directory)
 
 describe("jump_to_test", function()
   local mocked_cc = {}
@@ -62,13 +60,12 @@ describe("jump_to_test", function()
     }
 
     commands.jump_to_test(mocked_state, true)
-    -- TODO get matchers to work
-    -- assert.stub(mocked_vim_api.nvim_win_set_cursor).was.called_with(match.is_nil,
-    --   match.is_same({ mocked_range[1] + 1, mocked_range[2] }))
+
+    assert.stub(mocked_vim_api.nvim_win_set_cursor).was_called_with(
+      match.is_nil(),
+      match.is_same({ mocked_range[1] + 1, mocked_range[2] })
+    )
+
     assert.stub(mocked_vim_api.nvim_win_set_cursor).was.called()
   end)
-end)
-
-describe("watch", function()
-
 end)

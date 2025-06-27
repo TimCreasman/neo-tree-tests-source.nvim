@@ -1,7 +1,4 @@
 local cc = require("neo-tree.sources.common.commands")
-local utils = require("neo-tree.utils")
-local nio = require("nio")
-local manager = require("neo-tree.sources.manager")
 
 local M = {}
 
@@ -30,6 +27,7 @@ M.jump_to_test = function(state, toggle_directory)
 
   -- Position cursor
   if _type == "namespace" or _type == "test" then
+    local utils = require("neo-tree.utils")
     local winid = utils.get_appropriate_window(state)
     vim.api.nvim_win_set_cursor(winid, { extra.range[1] + 1, extra.range[2] })
   end

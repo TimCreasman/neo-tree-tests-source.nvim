@@ -1,5 +1,4 @@
 local config = {
-  -- TODO doublecheck these defaults
   auto_preview = {                   -- May also be set to `true` or `false`
     enabled = false,                 -- Whether to automatically enable preview mode
     preview_config = {},             -- Config table to pass to auto preview (for example `{ use_float = true }`)
@@ -42,11 +41,6 @@ local config = {
           },
           { "clipboard",   zindex = 10 },
           { "diagnostics", errors_only = true, zindex = 20, align = "right", hide_when_expanded = true },
-          -- { "git_status",    zindex = 10,        align = "right", hide_when_expanded = true },
-          -- { "file_size",     zindex = 10,        align = "right" },
-          -- { "type",          zindex = 10,        align = "right" },
-          -- { "last_modified", zindex = 10,        align = "right" },
-          -- { "created",       zindex = 10,        align = "right" },
         },
       },
     },
@@ -66,14 +60,6 @@ local config = {
             highlight = "NeoTreeSymbolicLinkTarget",
           },
           { "clipboard", zindex = 10 },
-          -- { "bufnr",         zindex = 10 },
-          -- { "modified",      zindex = 20, align = "right" },
-          -- { "diagnostics",   zindex = 20, align = "right" },
-          -- { "git_status",    zindex = 10, align = "right" },
-          -- { "file_size",     zindex = 10, align = "right" },
-          -- { "type",          zindex = 10, align = "right" },
-          -- { "last_modified", zindex = 10, align = "right" },
-          -- { "created",       zindex = 10, align = "right" },
         },
       },
     },
@@ -94,7 +80,7 @@ local config = {
       ["R"] = "run_all_tests",
       ["w"] = "watch_tests",
       ["o"] = "show_test_output",
-      -- TODO strongly recommend this option
+      -- DOC_TODO strongly recommend this option
       ["<cr>"] = { "open", config = { expand_nested_files = true } }, -- expand nested file takes precedence
     },
   },
