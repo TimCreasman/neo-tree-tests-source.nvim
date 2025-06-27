@@ -159,6 +159,15 @@ function Neotree:watch(node)
   self:render()
 end
 
+---@param node? neotree-neotest.Item
+function Neotree:output(node)
+  if not node or not node.extra or not node.extra.adapter_id or not node.extra.test_id then
+    return
+  end
+
+  require("neotest").output.open({ position_id = node.extra.test_id, adapter = node.extra.adapter_id, enter = true })
+end
+
 return function(client)
   return Neotree:new(client)
 end

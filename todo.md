@@ -15,14 +15,16 @@
 - [x] Switch all uses of the client to call the neotree consumer instead
 - [x] Fix run all tests only running one adapter and not both
 - [x] Implement watching a test with 'w'
+- [x] Implement calling test output with 'o'
 
 # Next:
 
+- [ ] Look through all TODOs and cleanup
 
 # Later:
 
+- [ ] Create README with installation instructions
 - [ ] Updated results up the tree when a child's status changes
-- [ ] Implement calling test output with 'o'
 - [ ] Add ability to pass custom args to neotest runner
 - [ ] Initial call to Tests items lags (async?)
 - [ ] How to run neotest apis (aka 'r' on a test, etc.) with neotest config?

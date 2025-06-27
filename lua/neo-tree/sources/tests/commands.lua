@@ -56,5 +56,15 @@ M.watch_tests = function(state)
   require("neotest.consumers.neotree").watch(node)
 end
 
+M.show_test_output = function(state)
+  local tree = state.tree
+  local node = tree:get_node()
+  -- There is no test output for these node types
+  if node.type == "directory" or node.type == "file" then
+    return
+  end
+  require("neotest.consumers.neotree").output(node)
+end
+
 cc._add_common_commands(M)
 return M

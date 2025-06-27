@@ -118,6 +118,12 @@ function neotest.neotree.watch(node)
   neotree_consumer:watch(node)
 end
 
+---Open test output
+---@param node? neotree-neotest.Item
+function neotest.neotree.output(node)
+  neotree_consumer:output(node)
+end
+
 --[[
 --- Open the summary window
 --- ```vim

@@ -15,18 +15,24 @@ describe("icon", function()
   local failed_icon = require("neotest.config").icons["failed"]
   local watched_icon = require("neotest.config").icons["watching"]
 
-  mocked_cc.icon = function()
-    return {
-      text = icon_text,
-      highlights = "Highlights"
-    }
-  end
+  a.before_each(function()
+    mocked_cc.icon = function()
+      return {
+        text = icon_text,
+        highlights = "Highlights"
+      }
+    end
 
-  mocked_results.get_results = function()
-    return {
-      status = "passed"
-    }
-  end
+    mocked_results.get_results = function()
+      return {
+        status = "passed"
+      }
+    end
+
+    mocked_test_watcher.is_watching = function(_)
+      return false
+    end
+  end)
 
   a.it("should append status icons to existing neo-tree icons", function()
     local icon = components.icon({}, {
@@ -41,7 +47,6 @@ describe("icon", function()
     mocked_test_watcher.is_watching = function(_)
       return true
     end
-
     local icon = components.icon({}, {
       type = "directory"
     }, {})
@@ -63,10 +68,14 @@ describe("icon", function()
 
     assert.is_same(failed_icon, icon.text)
 
+    mocked_test_watcher.is_watching = function(_)
+      return true
+    end
+
     local icon = components.icon({}, {
       type = "namespace"
     }, {})
 
-    assert.is_same(failed_icon, icon.text)
+    assert.is_same(watched_icon, icon.text)
   end)
 end)
