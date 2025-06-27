@@ -43,11 +43,18 @@ M.run_tests = function(state)
 end
 
 ---@param state neotree-neotest.State
-M.run_all_tests = function(state)
+M.run_all_tests = function(_)
   require("neotest.consumers.neotree").run_tests()
 end
 
 M.open = M.jump_to_test
+
+---@param state neotree-neotest.State
+M.watch_tests = function(state)
+  local tree = state.tree
+  local node = tree:get_node()
+  require("neotest.consumers.neotree").watch(node)
+end
 
 cc._add_common_commands(M)
 return M

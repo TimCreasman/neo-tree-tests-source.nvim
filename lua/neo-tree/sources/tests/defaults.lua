@@ -92,6 +92,7 @@ local config = {
     mappings = {
       ["r"] = "run_tests",
       ["R"] = "run_all_tests",
+      ["w"] = "watch_tests",
       -- TODO strongly recommend this option
       ["<cr>"] = { "open", config = { expand_nested_files = true } }, -- expand nested file takes precedence
     },

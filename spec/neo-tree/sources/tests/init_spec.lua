@@ -1,5 +1,3 @@
-pcall(require, "luacov")
-
 local tests_source = require("neo-tree.sources.tests")
 
 describe("setup", function()

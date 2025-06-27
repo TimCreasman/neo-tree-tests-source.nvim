@@ -1,5 +1,6 @@
 local highlights = require("neo-tree.ui.highlights")
 local common = require("neo-tree.sources.common.components")
+local neotest = require("neotest")
 
 ---@type table<neotree.Component.Tests._Key, neotree.Renderer>
 local M = {}
@@ -61,7 +62,11 @@ M.icon = function(config, node, state)
   local node_test_result = require("neotest.consumers.neotree").get_results(test_id, adapter_id)
 
   if node_test_result then
-    icon.text = icon.text .. neotest_config.icons[node_test_result.status]
+    if neotest.watch and neotest.watch.is_watching(test_id) then
+      icon.text = icon.text .. neotest_config.icons.watching
+    else
+      icon.text = icon.text .. neotest_config.icons[node_test_result.status]
+    end
     icon.highlight = neotest_config.highlights[node_test_result.status]
   end
 

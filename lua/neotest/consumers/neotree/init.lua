@@ -40,15 +40,15 @@ local function init(client)
     neotree_consumer:render(expanded)
   end
 
-  --[[
   client.listeners.starting = function()
-    summary:set_starting()
+    neotree_consumer:render()
   end
 
   client.listeners.started = function()
-    summary:set_started()
+    neotree_consumer:render()
   end
 
+  --[[
   if config.summary.follow then
     local function now_or_on_summary_open(func)
       if summary.win:is_open() then
@@ -110,6 +110,12 @@ end
 ---@param node? neotree-neotest.Item
 function neotest.neotree.run_tests(node)
   neotree_consumer:run_tests(node)
+end
+
+---Watch tests
+---@param node? neotree-neotest.Item
+function neotest.neotree.watch(node)
+  neotree_consumer:watch(node)
 end
 
 --[[

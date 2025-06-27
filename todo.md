@@ -1,4 +1,4 @@
-Done:
+# Done:
 - [x] Tree of tests showing for each adapter
 - [x] Show multiple roots
 - [x] Get neo-busted working
@@ -14,16 +14,16 @@ Done:
 - [x] Run all tests with 'R' by default
 - [x] Switch all uses of the client to call the neotree consumer instead
 - [x] Fix run all tests only running one adapter and not both
+- [x] Implement watching a test with 'w'
 
-Next:
+# Next:
 
-- [ ] Implement watching a test with 'w'
 
-Later:
+# Later:
 
 - [ ] Updated results up the tree when a child's status changes
 - [ ] Implement calling test output with 'o'
-
+- [ ] Add ability to pass custom args to neotest runner
 - [ ] Initial call to Tests items lags (async?)
 - [ ] How to run neotest apis (aka 'r' on a test, etc.) with neotest config?
 - [ ] Adapt tests to async 

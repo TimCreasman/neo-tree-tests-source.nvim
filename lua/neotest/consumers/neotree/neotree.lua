@@ -123,28 +123,40 @@ function Neotree:run(context, root, create_item)
   return root
 end
 
----Runs all tests under a specific node, or all tests if no node is supplied
+---Since both neotest.run and neotest.watch take the same arguments, we can simplify with this method
+---@private
+---@param adapter_ids string[]
+---@param neotest_func any
 ---@param node? neotree-neotest.Item
-function Neotree:run_tests(node)
+local process = function(adapter_ids, neotest_func, node)
   if not node then
-    local all_adapters = self.client:get_adapters()
-    local neotest_runner = require("neotest").run
-
     nio.run(function()
-      for _, adapter_id in pairs(all_adapters) do
+      for _, adapter_id in pairs(adapter_ids) do
         local path = utils.get_path_from_adapter_id(adapter_id)
-        neotest_runner.run({ path, adapter = adapter_id })
+        neotest_func({ path, adapter = adapter_id })
       end
     end)
   elseif node.extra and node.extra.test_id and node.extra.adapter_id then
     nio.run(function()
-      require("neotest").run.run({ node.extra.test_id, adapter = node.extra.adapter_id })
+      neotest_func({ node.extra.test_id, adapter = node.extra.adapter_id })
     end)
   end
 end
 
+---Runs all tests under a specific node, or all tests if no node is supplied
+---@param node? neotree-neotest.Item
+function Neotree:run_tests(node)
+  process(self.client:get_adapters(), require("neotest").run.run, node)
+end
+
 function Neotree:get_results(test_id, adapter_id)
   return self.client:get_results(adapter_id)[test_id]
+end
+
+---@param node? neotree-neotest.Item
+function Neotree:watch(node)
+  process(self.client:get_adapters(), require("neotest").watch.toggle, node)
+  self:render()
 end
 
 return function(client)
