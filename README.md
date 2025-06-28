@@ -214,3 +214,9 @@ local config = {
 }
 ```
 </details>
+
+# Donate
+
+If you wish to support me feel free to donate on [Paypal](https://www.paypal.com/donate/?business=5NG3ZRJL9KA2G&no_recurring=0&item_name=Thank+you%21&currency_code=USD)
+
+<img src="https://github.com/user-attachments/assets/f035fbb1-bbdd-4212-b4bf-4c61588b9368" width="100" height="100">
