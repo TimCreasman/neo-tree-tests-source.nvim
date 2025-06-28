@@ -84,30 +84,6 @@ local config = {
       ["o"] = "show_test_output",
       -- DOC_TODO strongly recommend this option
       ["<cr>"] = { "open", config = { expand_nested_files = true } }, -- expand nested file takes precedence
-      --[[
-    -- Mappings' defaults should match neotest summary mappings except for expanding/opening
-    --Mappings from neotest - make sure we support these
-    --mappings = {
-      expand = { "<CR>", "<2-LeftMouse>" },
-      expand_all = "e",
-      output = "o",
-      short = "O",
-      attach = "a",
-      jumpto = "i",
-      stop = "u",
-      run = "r",
-      debug = "d",
-      mark = "m",
-      run_marked = "R",
-      debug_marked = "D",
-      clear_marked = "M",
-      target = "t",
-      clear_target = "T",
-      next_failed = "J",
-      prev_failed = "K",
-      watch = "w",
-      help = "?",
-    }, ]]
     },
   },
 }
