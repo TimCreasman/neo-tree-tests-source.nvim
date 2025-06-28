@@ -40,6 +40,12 @@ M.run_tests = function(state)
   require("neotest.consumers.neotree").run_tests(node)
 end
 
+M.debug_tests = function(state)
+  local tree = state.tree
+  local node = tree:get_node()
+  require("neotest.consumers.neotree").run_tests(node, { strategy = "dap" })
+end
+
 ---@param state neotree-neotest.State
 M.run_all_tests = function(_)
   require("neotest.consumers.neotree").run_tests()

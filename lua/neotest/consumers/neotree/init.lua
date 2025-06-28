@@ -71,8 +71,9 @@ end
 
 ---Run tests
 ---@param node? neotree-neotest.Item
-function neotest.neotree.run_tests(node)
-  neotree_consumer:run_tests(node)
+---@param opts? neotest.run.RunArgs
+function neotest.neotree.run_tests(node, opts)
+  neotree_consumer:run_tests(node, opts)
 end
 
 ---Watch tests

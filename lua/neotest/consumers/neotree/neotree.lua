@@ -94,25 +94,31 @@ end
 ---@param adapter_ids string[]
 ---@param neotest_func any
 ---@param node? neotree-neotest.Item
-local process = function(adapter_ids, neotest_func, node)
+---@param opts? neotest.run.RunArgs
+local process = function(adapter_ids, neotest_func, node, opts)
   if not node then
     nio.run(function()
       for _, adapter_id in pairs(adapter_ids) do
         local path = utils.get_path_from_adapter_id(adapter_id)
-        neotest_func({ path, adapter = adapter_id })
+        local neotest_opts = { path, adapter = adapter_id }
+        neotest_opts = vim.tbl_deep_extend('keep', neotest_opts, opts or {})
+        neotest_func(neotest_opts)
       end
     end)
   elseif node.extra and node.extra.position_id and node.extra.adapter_id then
     nio.run(function()
-      neotest_func({ node.extra.position_id, adapter = node.extra.adapter_id })
+      local neotest_opts = { node.extra.position_id, adapter = node.extra.adapter_id }
+      neotest_opts = vim.tbl_deep_extend('keep', neotest_opts, opts or {})
+      neotest_func(neotest_opts)
     end)
   end
 end
 
 ---Runs all tests under a specific node, or all tests if no node is supplied
 ---@param node? neotree-neotest.Item
-function Neotree:run_tests(node)
-  process(self.client:get_adapters(), require("neotest").run.run, node)
+---@param opts? neotest.run.RunArgs
+function Neotree:run_tests(node, opts)
+  process(self.client:get_adapters(), require("neotest").run.run, node, opts)
 end
 
 function Neotree:get_results(position_id, adapter_id)
@@ -121,6 +127,8 @@ end
 
 ---@param node? neotree-neotest.Item
 function Neotree:watch(node)
+  -- TODO how do watched tests allow updated run args?
+  -- Should debug be a toggle?
   process(self.client:get_adapters(), require("neotest").watch.toggle, node)
   self:render()
 end

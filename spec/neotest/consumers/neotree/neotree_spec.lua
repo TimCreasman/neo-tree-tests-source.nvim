@@ -39,6 +39,28 @@ describe("Neotree Consumer", function()
       assert.stub(mocked_test_runner.run).was.not_called()
     end)
 
+    a.it("should allow run arguments to be passed into the runner", function()
+      neotree_consumer:run_tests(_, { strategy = "dap" })
+      assert.stub(mocked_test_runner.run).was_called_with(match.is_same(
+        { "/path/to/tests", adapter = mocked_adapter_names[1], strategy = "dap" }
+      ))
+      assert.stub(mocked_test_runner.run).was_called_with(match.is_same(
+        { "/path/to/other/tests", adapter = mocked_adapter_names[2], strategy = "dap" }
+      ))
+
+      local mocked_node = {
+        extra = {
+          position_id = 'home/path::"namespace"::"test_name"',
+          real_path = "home/path",
+          adapter_id = "adapter_1"
+        }
+      }
+      neotree_consumer:run_tests(mocked_node, { strategy = "dap" })
+      assert.stub(mocked_test_runner.run).was_called_with(match.is_same(
+        { mocked_node.extra.position_id, adapter = mocked_node.extra.adapter_id, strategy = "dap" }
+      ))
+    end)
+
     a.it("should run node's tests if a node is supplied", function()
       ---@type neotree-neotest.Item
       local mocked_node = {

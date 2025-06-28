@@ -26,6 +26,7 @@
 
 # Next:
 
+  - [-] Implement debug/dap test through 'd' - I need a dap installed to fully test it 
   - [ ] Add vimdoc via README convertion to vimdoc (panvimdoc ga)
 
 # Later:
@@ -35,8 +36,8 @@
   - [ ] Add github ci
 
 ## Feature completeness:
-  - [ ] Implement debug/dap test through 'd'
-  - [ ] Implement stopping running of tests through 's'?
+  - [ ] Implement stopping running of tests through 'u'?
+
   - [ ] Implement marking test through 'm' and clear marking/ run marked/ debug marked
   - [ ] Add ability to pass custom args to neotest runner
 
