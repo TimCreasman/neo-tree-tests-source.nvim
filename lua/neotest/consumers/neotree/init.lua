@@ -76,6 +76,12 @@ function neotest.neotree.run_tests(node, opts)
   neotree_consumer:run_tests(node, opts)
 end
 
+---Stop tests
+---@param node? neotree-neotest.Item
+function neotest.neotree.stop_tests(node)
+  neotree_consumer:stop_tests(node)
+end
+
 ---Watch tests
 ---@param node? neotree-neotest.Item
 function neotest.neotree.watch(node)

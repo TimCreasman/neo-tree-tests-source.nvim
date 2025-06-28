@@ -40,6 +40,13 @@ M.run_tests = function(state)
   require("neotest.consumers.neotree").run_tests(node)
 end
 
+---@param state neotree-neotest.State
+M.stop_tests = function(state)
+  local tree = state.tree
+  local node = tree:get_node()
+  require("neotest.consumers.neotree").stop_tests(node)
+end
+
 M.debug_tests = function(state)
   local tree = state.tree
   local node = tree:get_node()

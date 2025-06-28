@@ -121,6 +121,12 @@ function Neotree:run_tests(node, opts)
   process(self.client:get_adapters(), require("neotest").run.run, node, opts)
 end
 
+---Stops all tests under a specific node, or all tests if no node is supplied
+---@param node? neotree-neotest.Item
+function Neotree:stop_tests(node)
+  process(self.client:get_adapters(), require("neotest").run.stop, node)
+end
+
 function Neotree:get_results(position_id, adapter_id)
   return self.client:get_results(adapter_id)[position_id]
 end

@@ -22,10 +22,12 @@
   - [x] Add plugin config for key mappings, by default use neotest/neo-tree mappings
   - [x] How to run neotest apis (aka 'r' on a test, etc.) with neotest config?
   - [x] Adapt tests to async 
+  - [x] Implement stopping running of tests through 'u'
+
+# In Progress:
+
+  - [ ] Implement marking test through 'm' and clear marking/ run marked/ debug marked
   - [-] Look through all TODOs and cleanup
-
-# Next:
-
   - [-] Implement debug/dap test through 'd' - I need a dap installed to fully test it 
   - [ ] Add vimdoc via README convertion to vimdoc (panvimdoc ga)
 
@@ -36,9 +38,7 @@
   - [ ] Add github ci
 
 ## Feature completeness:
-  - [ ] Implement stopping running of tests through 'u'?
 
-  - [ ] Implement marking test through 'm' and clear marking/ run marked/ debug marked
   - [ ] Add ability to pass custom args to neotest runner
 
 ## Nice-to-haves:

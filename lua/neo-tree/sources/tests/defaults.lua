@@ -77,6 +77,7 @@ local config = {
   window = {
     mappings = {
       ["r"] = "run_tests",
+      ["u"] = "stop_tests",
       ["d"] = "debug_tests",
       ["R"] = "run_all_tests",
       ["w"] = "watch_tests",
@@ -84,6 +85,7 @@ local config = {
       -- DOC_TODO strongly recommend this option
       ["<cr>"] = { "open", config = { expand_nested_files = true } }, -- expand nested file takes precedence
       --[[
+    -- Mappings' defaults should match neotest summary mappings except for expanding/opening
     --Mappings from neotest - make sure we support these
     --mappings = {
       expand = { "<CR>", "<2-LeftMouse>" },
