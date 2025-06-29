@@ -26,7 +26,10 @@ $(DEPS)/nui.nvim: $(DEPS)
 $(DEPS)/plenary.nvim: $(DEPS)
 	@test -d "$(DEPS)/plenary.nvim" || git clone https://github.com/nvim-lua/plenary.nvim "$(DEPS)/plenary.nvim"
 
-deps: $(DEPS)/mini.nvim $(DEPS)/neo-tree.nvim $(DEPS)/nui.nvim $(DEPS)/plenary.nvim
+$(DEPS)/nvim-nio: $(DEPS)
+	@test -d "$(DEPS)/nvim-nio" || git clone https://github.com/nvim-neotest/nvim-nio "$(DEPS)/nvim-nio"
+
+deps: $(DEPS)/mini.nvim $(DEPS)/neo-tree.nvim $(DEPS)/nui.nvim $(DEPS)/plenary.nvim $(DEPS)/nvim-nio
 	@echo "[setup] environment ready"
 
 # installs deps before running tests, useful for the CI.
