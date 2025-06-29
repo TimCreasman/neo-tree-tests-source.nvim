@@ -1,10 +1,10 @@
 ==============================================================================
 ------------------------------------------------------------------------------
                                                                   *M.navigate()*
-      `M.navigate`({state}, {path}, {path_to_reveal}, {callback}, {async})
+        `M.navigate`({state}, {path}, {path_to_reveal}, {callback}, {_})
 to the given path. Navigates to a source, can be used to setup data on first navigation.
 Parameters ~
-{state} `(neotree)`-neotest.State
+{state} `(neotree.State)`
 {path} `(string)` Path to navigate to. If empty, will navigate to the cwd.
 
 ------------------------------------------------------------------------------
@@ -18,25 +18,25 @@ Parameters ~
                                                                  *M.run_tests()*
                              `M.run_tests`({state})
 Parameters ~
-{state} `(neotree)`-neotest.State
+{state} `(neotree.StateWithTree)`
 
 ------------------------------------------------------------------------------
                                                                 *M.stop_tests()*
                             `M.stop_tests`({state})
 Parameters ~
-{state} `(neotree)`-neotest.State
+{state} `(neotree.StateWithTree)`
 
 ------------------------------------------------------------------------------
-                                                             *M.run_all_tests()*
-                             `M.run_all_tests`({_})
+                                                               *M.debug_tests()*
+                            `M.debug_tests`({state})
 Parameters ~
-{state} `(neotree)`-neotest.State
+{state} `(neotree.StateWithTree)`
 
 ------------------------------------------------------------------------------
                                                                *M.watch_tests()*
                             `M.watch_tests`({state})
 Parameters ~
-{state} `(neotree)`-neotest.State
+{state} `(neotree.StateWithTree)`
 
 
 ==============================================================================
@@ -57,7 +57,7 @@ Fields ~
 
 ------------------------------------------------------------------------------
                                                                       *M.name()*
-                      `M.name`({config}, {node}, {state})
+                        `M.name`({config}, {node}, {_})
 Parameters ~
 {config} `(neotree.Component.Common.Name)`
 
@@ -66,8 +66,8 @@ Parameters ~
                       `M.icon`({config}, {node}, {state})
 Parameters ~
 {config} `(neotree.Component.Common.Icon)`
-{node} `(neotree)`-neotest.Item
-{state} `(neotree)`-neotest.State
+{node} `(neotree)`-neotest.Node
+{state} `(neotree.State)`
 
 
 ==============================================================================
@@ -75,7 +75,7 @@ Parameters ~
                                                           *M.neotest_as_items()*
                          `M.neotest_as_items`({state})
 Return ~
-`(neotree.FileItem.Directory)`
+`(neotree)`-neotest.FileItem.Directory
 
 
 ==============================================================================
@@ -104,29 +104,29 @@ Return ~
                   `neotest.neotree.run_tests`({node}, {opts})
 tests
 Parameters ~
-{node} `(optional)` `(neotree)`-neotest.Item
-{opts} `(optional)` `(neotest.run.RunArgs)`
+{node} `(optional)` `(NuiTree.Node)`
+{opts} `(optional)` `(neotree)`-neotest.RunArgs
 
 ------------------------------------------------------------------------------
                                                   *neotest.neotree.stop_tests()*
                       `neotest.neotree.stop_tests`({node})
 tests
 Parameters ~
-{node} `(optional)` `(neotree)`-neotest.Item
+{node} `(optional)` `(NuiTree.Node)`
 
 ------------------------------------------------------------------------------
                                                        *neotest.neotree.watch()*
                         `neotest.neotree.watch`({node})
 tests
 Parameters ~
-{node} `(optional)` `(neotree)`-neotest.Item
+{node} `(optional)` `(NuiTree.Node)`
 
 ------------------------------------------------------------------------------
                                                       *neotest.neotree.output()*
                         `neotest.neotree.output`({node})
 test output
 Parameters ~
-{node} `(optional)` `(neotree)`-neotest.Item
+{node} `(optional)` `(NuiTree.Node)`
 
 
 ==============================================================================
@@ -138,14 +138,6 @@ Class ~
 {neotest.Neotree}
 Fields ~
 {client} `(neotest.Client)`
-
-------------------------------------------------------------------------------
-                                                            *Neotree:get_tree()*
-                        `Neotree:get_tree`({adapter_id})
-Parameters ~
-{adapter_id} `(string)`
-Return ~
-`(neotest.Tree|nil)`,string|nil
 
 ------------------------------------------------------------------------------
                                                                  *Neotree:run()*
@@ -162,27 +154,27 @@ Return ~
                       `Neotree:run_tests`({node}, {opts})
 all tests under a specific node, or all tests if no node is supplied
 Parameters ~
-{node} `(optional)` `(neotree)`-neotest.Item
-{opts} `(optional)` `(neotest.run.RunArgs)`
+{node} `(optional)` `(neotree)`-neotest.Node
+{opts} `(optional)` `(neotree)`-neotest.RunArgs
 
 ------------------------------------------------------------------------------
                                                           *Neotree:stop_tests()*
                           `Neotree:stop_tests`({node})
 all tests under a specific node, or all tests if no node is supplied
 Parameters ~
-{node} `(optional)` `(neotree)`-neotest.Item
+{node} `(optional)` `(neotree)`-neotest.Node
 
 ------------------------------------------------------------------------------
                                                                *Neotree:watch()*
                             `Neotree:watch`({node})
 Parameters ~
-{node} `(optional)` `(neotree)`-neotest.Item
+{node} `(optional)` `(neotree)`-neotest.Node
 
 ------------------------------------------------------------------------------
-                                                              *Neotree:output()*
-                            `Neotree:output`({node})
+                                                              *Neotree.output()*
+                            `Neotree.output`({node})
 Parameters ~
-{node} `(optional)` `(neotree)`-neotest.Item
+{node} `(optional)` `(neotree)`-neotest.Node
 
 
 ==============================================================================
@@ -190,18 +182,34 @@ Parameters ~
 
 ------------------------------------------------------------------------------
 Class ~
-{neotree-neotest.Item.Extra}
+{neotree-neotest.Node.Extra}
 Fields ~
 {real_path} `(string)`
 {position_id} `(string)`
-{range} `(optional)` `(integer[])`
 {adapter_id} `(optional)` `(string)`
+{range} `(optional)` `(integer[])`
+{adapter_ids} `(optional)` `(string[])`
 
 ------------------------------------------------------------------------------
 Class ~
-{neotree-neotest.Item}
+{neotree-neotest.Node} : NuiTree.Node
 Fields ~
-{extra} `(neotree)`-neotest.Item.Extra
+{extra} `(neotree)`-neotest.Node.Extra
+
+------------------------------------------------------------------------------
+allowed version of neotest.RunArgs
+Class ~
+{neotree-neotest.RunArgs} : neotest.RunArgs
+Fields ~
+{tree} `(optional)` `(neotest.Tree)`
+{extra_args} `(optional)` `(string[])`
+{strategy} `(optional)` `(string)`
+
+------------------------------------------------------------------------------
+Class ~
+{neotree-neotest.FileItem.Directory} : neotree.FileItem
+Fields ~
+{extra} `(neotree)`-neotest.Node.Extra?
 
 
 ==============================================================================

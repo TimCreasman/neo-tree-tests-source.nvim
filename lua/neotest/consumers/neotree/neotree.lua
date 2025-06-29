@@ -1,4 +1,3 @@
-require("neotest.types")
 local nio = require("nio")
 local utils = require("utils")
 

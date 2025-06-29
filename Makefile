@@ -7,31 +7,40 @@ test:
 	nvim --headless --noplugin -u ./scripts/mininit.lua \
 		-c "lua require('plenary.test_harness').test_directory('tests/', {minimal_init='scripts/mininit.lua',sequential=true})"
 
-# # runs all the test files on the nightly version, `bob` must be installed.
-# test-nightly:
-# 	bob use nightly
-# 	make test
-#
-# # runs all the test files on the 0.8.3 version, `bob` must be installed.
-# test-0.8.3:
-# 	bob use 0.8.3
-# 	make test
+# Dependencies:
 
-# installs `mini.nvim`, used for both the tests and documentation.
-deps:
-	@mkdir -p deps
-	git clone --depth 1 https://github.com/echasnovski/mini.nvim deps/mini.nvim
-	git clone --depth 1 https://github.com/nvim-neo-tree/neo-tree.nvim deps/neo-tree.nvim
-	git clone --depth 1 https://github.com/nvim-neotest/neotest deps/neotest
-	git clone --depth 1 https://github.com/nvim-lua/plenary.nvim deps/plenary.nvim
-	git clone --depth 1 https://github.com/MunifTanjim/nui.nvim deps/nui.nvim
+DEPS := ${CURDIR}/deps
+
+$(DEPS):
+	mkdir -p "$(DEPS)"
+
+$(DEPS)/mini.nvim: $(DEPS)
+	@test -d "$(DEPS)/mini.nvim" || git clone https://github.com/echasnovski/mini.nvim "$(DEPS)/mini.nvim"
+
+$(DEPS)/neo-tree.nvim: $(DEPS)
+	@test -d "$(DEPS)/neo-tree.nvim" || git clone https://github.com/nvim-neo-tree/neo-tree.nvim "$(DEPS)/neo-tree.nvim"
+
+$(DEPS)/nui.nvim: $(DEPS)
+	@test -d "$(DEPS)/nui.nvim" || git clone http://github.com/MunifTanjim/nui.nvim "$(DEPS)/nui.nvim"
+
+$(DEPS)/neotest: $(DEPS)
+	@test -d "$(DEPS)/neotest" || git clone https://github.com/nvim-neotest/neotest "$(DEPS)/neotest"
+
+$(DEPS)/plenary.nvim: $(DEPS)
+	@test -d "$(DEPS)/plenary.nvim" || git clone https://github.com/nvim-lua/plenary.nvim "$(DEPS)/plenary.nvim"
+
+$(DEPS)/nvim-nio: $(DEPS)
+	@test -d "$(DEPS)/nvim-nio" || git clone https://github.com/nvim-neotest/nvim-nio "$(DEPS)/nvim-nio"
+
+deps: $(DEPS)/mini.nvim $(DEPS)/neo-tree.nvim $(DEPS)/nui.nvim $(DEPS)/neotest $(DEPS)/plenary.nvim $(DEPS)/nvim-nio
+	@echo "[setup] environment ready"
 
 # installs deps before running tests, useful for the CI.
 test-ci: deps test
 
 # generates the documentation.
 documentation:
-	nvim --headless --noplugin -u ./scripts/minimal_init.lua -c "lua require('mini.doc').generate()" -c "qa!"
+	nvim --headless --noplugin -u ./scripts/mininit.lua -c "lua require('mini.doc').generate()" -c "qa!"
 
 # installs deps before running the documentation generation, useful for the CI.
 documentation-ci: deps documentation
@@ -41,10 +50,9 @@ lint:
 	stylua . -g '*.lua' -g '!deps/' -g '!nightly/'
 	luacheck plugin/ lua/
 
+CONFIGURATION = ${CURDIR}/.luarc.json
 luals-ci:
-	rm -rf .ci/lua-ls/log
-	lua-language-server --configpath .luarc.json --logpath .ci/lua-ls/log --check .
-	[ -f .ci/lua-ls/log/check.json ] && { cat .ci/lua-ls/log/check.json 2>/dev/null; exit 1; } || true
+	VIMRUNTIME="`nvim --clean --headless --cmd 'lua io.write(vim.env.VIMRUNTIME)' --cmd 'quit'`" lua-language-server --configpath=$(CONFIGURATION) --check=.
 
 luals:
 	mkdir -p .ci/lua-ls
