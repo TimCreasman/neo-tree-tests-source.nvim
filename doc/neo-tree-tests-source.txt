@@ -186,6 +186,7 @@ Class ~
 Fields ~
 {real_path} `(string)`
 {position_id} `(string)`
+{adapter_id} `(optional)` `(string)`
 {range} `(optional)` `(integer[])`
 {adapter_ids} `(optional)` `(string[])`
 
