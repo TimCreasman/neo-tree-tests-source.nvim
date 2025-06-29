@@ -28,11 +28,11 @@ describe("Neotree Consumer", function()
         a.it("should call the neotest runner for all adapters if no node is supplied", function()
             neotree_consumer:run_tests()
             assert
-                .stub(mocked_test_runner.run)
-                .was.called_with(match.is_same({ "/path/to/tests", adapter = mocked_adapter_names[1] }))
+                .stub(mocked_test_runner.run).was
+                .called_with(match.is_same({ "/path/to/tests", adapter = mocked_adapter_names[1] }))
             assert
-                .stub(mocked_test_runner.run)
-                .was.called_with(match.is_same({ "/path/to/other/tests", adapter = mocked_adapter_names[2] }))
+                .stub(mocked_test_runner.run).was
+                .called_with(match.is_same({ "/path/to/other/tests", adapter = mocked_adapter_names[2] }))
         end)
 
         a.it("should never call run if no valid adapters exist", function()
@@ -112,11 +112,11 @@ describe("Neotree Consumer", function()
         a.it("should call the neotest runner for all adapters if no node is supplied", function()
             neotree_consumer:watch()
             assert
-                .stub(mocked_test_watcher.toggle)
-                .was.called_with(match.is_same({ "/path/to/tests", adapter = mocked_adapter_names[1] }))
+                .stub(mocked_test_watcher.toggle).was
+                .called_with(match.is_same({ "/path/to/tests", adapter = mocked_adapter_names[1] }))
             assert
-                .stub(mocked_test_watcher.toggle)
-                .was.called_with(match.is_same({ "/path/to/other/tests", adapter = mocked_adapter_names[2] }))
+                .stub(mocked_test_watcher.toggle).was
+                .called_with(match.is_same({ "/path/to/other/tests", adapter = mocked_adapter_names[2] }))
         end)
 
         a.it("should never call run if no valid adapters exist", function()

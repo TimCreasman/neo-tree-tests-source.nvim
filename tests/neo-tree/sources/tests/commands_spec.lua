@@ -64,7 +64,7 @@ describe("jump_to_test", function()
         commands.jump_to_test(mocked_state, true)
 
         assert
-            .spy(vim.api.nvim_win_set_cursor)
-            .was.called_with(match.is_nil(), match.is_same({ mocked_range[1] + 1, mocked_range[2] }))
+            .spy(vim.api.nvim_win_set_cursor).was
+            .called_with(match.is_nil(), match.is_same({ mocked_range[1] + 1, mocked_range[2] }))
     end)
 end)
