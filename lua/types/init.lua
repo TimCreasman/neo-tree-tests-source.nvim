@@ -3,6 +3,7 @@
 ---@class neotree-neotest.Node.Extra
 ---@field real_path string
 ---@field position_id string
+---@field adapter_id? string
 ---@field range? integer[]
 ---@field adapter_ids? string[]
 
