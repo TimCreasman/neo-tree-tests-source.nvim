@@ -4,20 +4,18 @@ all: documentation lint luals test
 
 # runs all the test files.
 test:
-	make deps
-	nvim --version | head -n 1 && echo ''
-	nvim --headless --noplugin -u tests/mininit.lua 
-		-c "lua require('plenary.test_harness').test_directory('spec/', {minimal_init='spec/mininit.lua',sequential=true})"
+	nvim --headless --noplugin -u ./scripts/mininit.lua \
+		-c "lua require('plenary.test_harness').test_directory('tests/', {minimal_init='scripts/mininit.lua',sequential=true})"
 
-# runs all the test files on the nightly version, `bob` must be installed.
-test-nightly:
-	bob use nightly
-	make test
-
-# runs all the test files on the 0.8.3 version, `bob` must be installed.
-test-0.8.3:
-	bob use 0.8.3
-	make test
+# # runs all the test files on the nightly version, `bob` must be installed.
+# test-nightly:
+# 	bob use nightly
+# 	make test
+#
+# # runs all the test files on the 0.8.3 version, `bob` must be installed.
+# test-0.8.3:
+# 	bob use 0.8.3
+# 	make test
 
 # installs `mini.nvim`, used for both the tests and documentation.
 deps:

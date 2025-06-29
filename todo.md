@@ -24,6 +24,8 @@
   - [x] Adapt tests to async 
   - [x] Implement stopping running of tests through 'u'
   - [x] Create README with installation instructions
+  - [x] Initial call to Tests items lags (async?)
+      ~(This was due to another plugin)~
 
 # In Progress:
 
@@ -39,6 +41,7 @@
 
 ## Feature completeness:
 
+  - [ ] Fix all types
   - [ ] Add ability to pass custom args to neotest runner
 
 ## Nice-to-haves:
@@ -48,5 +51,3 @@
   - [ ] Implement runner animation
 
 ## Backlog:
-  META_TODO: Confirm this
-  - [ ] Initial call to Tests items lags (async?)
