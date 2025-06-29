@@ -1,9 +1,4 @@
-ignore = {
-  "631",    -- max_line_length
-}
-read_globals = {
-  "vim",
-  "describe",
-  "it",
-  "assert"
-}
+globals = { "vim", "MiniTest" }
+max_line_length = false
+
+exclude_files = { "deps" }

@@ -23,6 +23,7 @@
   - [x] How to run neotest apis (aka 'r' on a test, etc.) with neotest config?
   - [x] Adapt tests to async 
   - [x] Implement stopping running of tests through 'u'
+  - [x] Create README with installation instructions
 
 # In Progress:
 
@@ -34,7 +35,6 @@
 # Later:
 
 ## Necessity:
-  - [ ] Create README with installation instructions
   - [ ] Add github ci
 
 ## Feature completeness:

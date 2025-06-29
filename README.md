@@ -1,14 +1,20 @@
-# Neo-tree-tests-source
+<p align="center">
+  <h1 align="center">neo-tree-tests-source.nvim</h2>
+</p>
 
-# Introduction
+<p align="center">
+    Bridging the gap between <a href="https://github.com/nvim-neotest/neotest">neotest</a> and <a href="https://github.com/nvim-neo-tree/neo-tree.nvim">neo-tree</a>
+</p>
 
-This plugin serves to bridge the gap between [neotest](https://github.com/nvim-neotest/neotest) and [neo-tree](https://github.com/nvim-neo-tree/neo-tree.nvim) by providing a test tree source for neo-tree.
+<div align="center">
+    <img src="https://github.com/user-attachments/assets/fdc21ce8-42f1-4b8e-a3ed-c38ad58a1690">
+</div>
 
-![Screenshot 2025-06-28 152804](https://github.com/user-attachments/assets/fdc21ce8-42f1-4b8e-a3ed-c38ad58a1690)
+This plugin serves to bridge the gap between  and [neo-tree](https://github.com/nvim-neo-tree/neo-tree.nvim) by providing a test tree source for neo-tree.
 
 This is similar to the summary consumer that neotest provides, but adapted for the look-and-feel of neo-tree.
 
-# Usage
+# 📋Usage
 This plugin needs to be added to both your neo-tree and neotest configs:
 
 <details>
@@ -84,13 +90,13 @@ This plugin needs to be added to both your neo-tree and neotest configs:
 
 If you want to provide configuration for other plugin managers, please create a PR.
 
-# Motivation
+# 🎭Motivation
 
 "I like the summary consumer neotest provides, but I wish it could exist within my neo-tree window"
 
 This plugin was mainly developed as a way for me to learn how neovim plugins work and to brush up on my lua.
 
-# Features 
+# ⚡️Features 
 
 * Provides a filesystem-like interface for tests
 * Navigates just like any source in neo-tree
@@ -113,7 +119,7 @@ For this, the following still needs to be implemented:
 * Setting targets
 * Viewing shortened output with `'O'`
 
-# Configuration
+# ⚙ Configuration
 
 Configuration is handled completely in the neo-tree plugin setup. The one exception being the status icons, which are pulled from the neotest configuration.
 
