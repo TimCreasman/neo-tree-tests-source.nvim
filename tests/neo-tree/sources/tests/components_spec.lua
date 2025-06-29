@@ -1,11 +1,14 @@
 local mock = require("luassert.mock")
 local components = require("neo-tree.sources.tests.components")
 
+-- TODO Figure out why assert.stub is undefined
+---@diagnostic disable: undefined-field
+---@diagnostic disable: missing-fields
+
 describe("icon", function()
     require("neotest").setup({})
 
     local mocked_cc = mock(require("neo-tree.sources.common.components"), true)
-    local mocked_consumer = mock(require("neotest.consumers.neotree"), true)
     local mocked_results = mock(require("neotest.consumers.neotree"), true)
     local mocked_test_watcher = mock(require("neotest").watch, true)
 
@@ -34,11 +37,9 @@ describe("icon", function()
     end)
 
     it("should append status icons to existing neo-tree icons", function()
-        local icon = components.icon({}, {
-            type = "directory",
-        }, {})
+        local icon = components.icon({}, { type = "directory" }, {})
 
-        assert.truthy(string.find(icon.text, "Folder", _, true))
+        assert.truthy(string.find(icon.text, "Folder", nil, true))
         assert.is_same(icon_text .. passed_icon, icon.text)
     end)
 
@@ -46,11 +47,9 @@ describe("icon", function()
         mocked_test_watcher.is_watching = function(_)
             return true
         end
-        local icon = components.icon({}, {
-            type = "directory",
-        }, {})
+        local icon = components.icon({}, { type = "directory" }, {})
 
-        assert.truthy(string.find(icon.text, "Folder", _, true))
+        assert.truthy(string.find(icon.text, "Folder", nil, true))
         assert.is_same(icon_text .. watched_icon, icon.text)
     end)
 
@@ -61,9 +60,7 @@ describe("icon", function()
             }
         end
 
-        local icon = components.icon({}, {
-            type = "test",
-        }, {})
+        local icon = components.icon({}, { type = "test" }, {})
 
         assert.is_same(failed_icon, icon.text)
 
@@ -71,9 +68,7 @@ describe("icon", function()
             return true
         end
 
-        local icon = components.icon({}, {
-            type = "namespace",
-        }, {})
+        icon = components.icon({}, { type = "namespace" }, {})
 
         assert.is_same(watched_icon, icon.text)
     end)

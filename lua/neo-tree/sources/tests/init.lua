@@ -11,7 +11,7 @@ local get_state = function()
 end
 
 ---Navigate to the given path. Navigates to a source, can be used to setup data on first navigation.
----@param state neotree-neotest.State
+---@param state neotree.State
 ---@param path string Path to navigate to. If empty, will navigate to the cwd.
 M.navigate = function(state, path, path_to_reveal, callback, _)
     state.path = path or state.path

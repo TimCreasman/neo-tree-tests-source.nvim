@@ -66,7 +66,7 @@ function Neotree:run(context, root, create_item)
                 item.type = data.type
             end
 
-            ---@type neotree-neotest.Item.Extra
+            ---@type neotree-neotest.Node.Extra
             item.extra = {
                 range = data.range,
                 adapter_id = adapter_id,
@@ -88,7 +88,7 @@ end
 ---@private
 ---@param adapter_ids string[]
 ---@param neotest_func any
----@param node? neotree-neotest.Item
+---@param node? neotree-neotest.Node
 ---@param opts? neotest.run.RunArgs
 local process = function(adapter_ids, neotest_func, node, opts)
     if not node then
@@ -110,14 +110,15 @@ local process = function(adapter_ids, neotest_func, node, opts)
 end
 
 ---Runs all tests under a specific node, or all tests if no node is supplied
----@param node? neotree-neotest.Item
----@param opts? neotest.run.RunArgs
+---@param node? neotree-neotest.Node
+---@param opts? neotree-neotest.RunArgs
 function Neotree:run_tests(node, opts)
+    ---@diagnostic disable-next-line: param-type-mismatch
     process(self.client:get_adapters(), require("neotest").run.run, node, opts)
 end
 
 ---Stops all tests under a specific node, or all tests if no node is supplied
----@param node? neotree-neotest.Item
+---@param node? neotree-neotest.Node
 function Neotree:stop_tests(node)
     process(self.client:get_adapters(), require("neotest").run.stop, node)
 end
@@ -126,7 +127,7 @@ function Neotree:get_results(position_id, adapter_id)
     return self.client:get_results(adapter_id)[position_id]
 end
 
----@param node? neotree-neotest.Item
+---@param node? neotree-neotest.Node
 function Neotree:watch(node)
     -- TODO how do watched tests allow updated run args?
     -- Should debug be a toggle?
@@ -134,7 +135,7 @@ function Neotree:watch(node)
     self.render()
 end
 
----@param node? neotree-neotest.Item
+---@param node? neotree-neotest.Node
 function Neotree.output(node)
     if not node or not node.extra or not node.extra.adapter_id or not node.extra.position_id then
         return

@@ -43,8 +43,8 @@ M.name = function(config, node, _)
 end
 
 ---@param config neotree.Component.Common.Icon
----@param node neotree-neotest.Item
----@param state neotree-neotest.State
+---@param node neotree-neotest.Node
+---@param state neotree.State
 M.icon = function(config, node, state)
     local icon = {
         text = "",

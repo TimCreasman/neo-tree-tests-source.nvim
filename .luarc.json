@@ -1,11 +1,37 @@
 {
-    "runtime.version": "LuaJIT",
-    "diagnostics.globals": [
-        "vim",
-        "MiniTest"
-    ],
-    "workspace.library": [
-        "/usr/local/share/nvim/runtime/lua",
-        ".ci/neovim/share/nvim/runtime/lua"
+  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "diagnostics": {
+    "libraryFiles": "Disable"
+  },
+  "runtime": {
+    "version": "LuaJIT",
+    "path": [
+      "lua/?.lua",
+      "lua/?/init.lua",
+      "library/?.lua",
+      "library/?/init.lua"
     ]
+  },
+  "workspace": {
+    "checkThirdParty": "Disable",
+    "library": [
+      "/usr/local/share/nvim/runtime/lua",
+      ".ci/neovim/share/nvim/runtime/lua",
+      "$PWD/deps/plenary.nvim",
+      "$PWD/deps/nui.nvim",
+      "$PWD/deps/neo-tree.nvim",
+      "$PWD/deps/neotest",
+      "$PWD/deps/mini.nvim",
+      "${3rd}/luassert",
+      "${3rd}/busted",
+      "${3rd}/luv",
+      "$VIMRUNTIME"
+    ],
+    "ignoreDir": [
+      ".dependencies",
+      ".luarocks",
+      ".lua",
+      ".repro"
+    ]
+  }
 }

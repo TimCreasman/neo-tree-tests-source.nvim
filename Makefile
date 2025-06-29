@@ -24,6 +24,7 @@ deps:
 	git clone --depth 1 https://github.com/nvim-neo-tree/neo-tree.nvim deps/neo-tree.nvim
 	git clone --depth 1 https://github.com/nvim-neotest/neotest deps/neotest
 	git clone --depth 1 https://github.com/nvim-lua/plenary.nvim deps/plenary.nvim
+	git clone --depth 1 https://github.com/MunifTanjim/nui.nvim deps/nui.nvim
 
 # installs deps before running tests, useful for the CI.
 test-ci: deps test

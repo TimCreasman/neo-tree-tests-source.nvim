@@ -3,6 +3,10 @@ local Neotree = require("neotest.consumers.neotree.neotree")
 local mock = require("luassert.mock")
 local match = require("luassert.match")
 
+-- TODO Figure out why assert.stub is undefined
+---@diagnostic disable: undefined-field
+---@diagnostic disable: missing-fields
+
 describe("Neotree Consumer", function()
     require("neotest").setup({})
     local mocked_client = require("neotest.client")()
@@ -25,10 +29,10 @@ describe("Neotree Consumer", function()
             neotree_consumer:run_tests()
             assert
                 .stub(mocked_test_runner.run)
-                .was_called_with(match.is_same({ "/path/to/tests", adapter = mocked_adapter_names[1] }))
+                .was.called_with(match.is_same({ "/path/to/tests", adapter = mocked_adapter_names[1] }))
             assert
                 .stub(mocked_test_runner.run)
-                .was_called_with(match.is_same({ "/path/to/other/tests", adapter = mocked_adapter_names[2] }))
+                .was.called_with(match.is_same({ "/path/to/other/tests", adapter = mocked_adapter_names[2] }))
         end)
 
         a.it("should never call run if no valid adapters exist", function()
@@ -40,13 +44,13 @@ describe("Neotree Consumer", function()
         end)
 
         a.it("should allow run arguments to be passed into the runner", function()
-            neotree_consumer:run_tests(_, { strategy = "dap" })
-            assert.stub(mocked_test_runner.run).was_called_with(match.is_same({
+            neotree_consumer:run_tests(nil, { strategy = "dap" })
+            assert.stub(mocked_test_runner.run).was.called_with(match.is_same({
                 "/path/to/tests",
                 adapter = mocked_adapter_names[1],
                 strategy = "dap",
             }))
-            assert.stub(mocked_test_runner.run).was_called_with(match.is_same({
+            assert.stub(mocked_test_runner.run).was.called_with(match.is_same({
                 "/path/to/other/tests",
                 adapter = mocked_adapter_names[2],
                 strategy = "dap",
@@ -60,7 +64,7 @@ describe("Neotree Consumer", function()
                 },
             }
             neotree_consumer:run_tests(mocked_node, { strategy = "dap" })
-            assert.stub(mocked_test_runner.run).was_called_with(match.is_same({
+            assert.stub(mocked_test_runner.run).was.called_with(match.is_same({
                 mocked_node.extra.position_id,
                 adapter = mocked_node.extra.adapter_id,
                 strategy = "dap",
@@ -68,7 +72,7 @@ describe("Neotree Consumer", function()
         end)
 
         a.it("should run node's tests if a node is supplied", function()
-            ---@type neotree-neotest.Item
+            ---@type neotree-neotest.Node
             local mocked_node = {
                 extra = {
                     position_id = 'home/path::"namespace"::"test_name"',
@@ -78,14 +82,14 @@ describe("Neotree Consumer", function()
             }
             neotree_consumer:run_tests(mocked_node)
             assert.stub(mocked_test_runner.run).was.called(1)
-            assert.stub(mocked_test_runner.run).was_called_with(match.is_same({
+            assert.stub(mocked_test_runner.run).was.called_with(match.is_same({
                 mocked_node.extra.position_id,
                 adapter = mocked_node.extra.adapter_id,
             }))
         end)
 
         a.it("should do nothing if the node has no adapter_id or position_id", function()
-            ---@type neotree-neotest.Item
+            ---@type neotree-neotest.Node
             local mocked_node = {
                 extra = {
                     position_id = 'home/path::"namespace"::"test_name"',
@@ -109,10 +113,10 @@ describe("Neotree Consumer", function()
             neotree_consumer:watch()
             assert
                 .stub(mocked_test_watcher.toggle)
-                .was_called_with(match.is_same({ "/path/to/tests", adapter = mocked_adapter_names[1] }))
+                .was.called_with(match.is_same({ "/path/to/tests", adapter = mocked_adapter_names[1] }))
             assert
                 .stub(mocked_test_watcher.toggle)
-                .was_called_with(match.is_same({ "/path/to/other/tests", adapter = mocked_adapter_names[2] }))
+                .was.called_with(match.is_same({ "/path/to/other/tests", adapter = mocked_adapter_names[2] }))
         end)
 
         a.it("should never call run if no valid adapters exist", function()
@@ -124,7 +128,7 @@ describe("Neotree Consumer", function()
         end)
 
         a.it("should run node's tests if a node is supplied", function()
-            ---@type neotree-neotest.Item
+            ---@type neotree-neotest.Node
             local mocked_node = {
                 extra = {
                     position_id = 'home/path::"namespace"::"test_name"',
@@ -134,14 +138,14 @@ describe("Neotree Consumer", function()
             }
             neotree_consumer:watch(mocked_node)
             assert.stub(mocked_test_watcher.toggle).was.called(1)
-            assert.stub(mocked_test_watcher.toggle).was_called_with(match.is_same({
+            assert.stub(mocked_test_watcher.toggle).was.called_with(match.is_same({
                 mocked_node.extra.position_id,
                 adapter = mocked_node.extra.adapter_id,
             }))
         end)
 
         a.it("should do nothing if the node has no adapter_id or position_id", function()
-            ---@type neotree-neotest.Item
+            ---@type neotree-neotest.Node
             local mocked_node = {
                 extra = {
                     position_id = 'home/path::"namespace"::"test_name"',

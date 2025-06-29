@@ -69,26 +69,26 @@ function neotest.neotree.get_results(position_id, adapter_id)
 end
 
 ---Run tests
----@param node? neotree-neotest.Item
----@param opts? neotest.run.RunArgs
+---@param node? NuiTree.Node
+---@param opts? neotree-neotest.RunArgs
 function neotest.neotree.run_tests(node, opts)
     neotree_consumer:run_tests(node, opts)
 end
 
 ---Stop tests
----@param node? neotree-neotest.Item
+---@param node? NuiTree.Node
 function neotest.neotree.stop_tests(node)
     neotree_consumer:stop_tests(node)
 end
 
 ---Watch tests
----@param node? neotree-neotest.Item
+---@param node? NuiTree.Node
 function neotest.neotree.watch(node)
     neotree_consumer:watch(node)
 end
 
 ---Open test output
----@param node? neotree-neotest.Item
+---@param node? NuiTree.Node
 function neotest.neotree.output(node)
     neotree_consumer.output(node)
 end

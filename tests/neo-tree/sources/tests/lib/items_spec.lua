@@ -4,6 +4,9 @@ local stub = require("luassert.stub")
 local consumer_init = require("neotest.consumers.neotree")
 local a = require("nio").tests
 
+-- TODO Figure out why assert.stub is undefined
+---@diagnostic disable: undefined-field
+
 describe("neotest_as_items", function()
     local mocked_state = {}
     local mocked_adapter_names = {}
@@ -73,7 +76,7 @@ describe("render_items", function()
 
         items.render_items(mocked_state)
 
-        assert.stub(neotest_as_items_mock).was_not.called()
+        assert.stub(neotest_as_items_mock).was.called(0)
         assert.truthy(mocked_state.loading)
     end)
 
@@ -89,8 +92,7 @@ describe("render_items", function()
 
         items.render_items(mocked_state)
 
-        -- assert.stub(renderer.show_nodes).was.called_with({ mocked_items }, mocked_state)
         assert.False(mocked_state.loading)
-        assert.stub(neotest_as_items_mock).was.called()
+        assert.stub(neotest_as_items_mock).was.called(1)
     end)
 end)

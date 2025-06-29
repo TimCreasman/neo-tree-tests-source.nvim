@@ -1,8 +1,10 @@
-local a = require("nio.tests")
 local commands = require("neo-tree.sources.tests.commands")
 local stub = require("luassert.stub")
 local mock = require("luassert.mock")
 local match = require("luassert.match")
+
+-- TODO Figure out why assert.stub is undefined
+---@diagnostic disable: undefined-field
 
 describe("jump_to_test", function()
     local mocked_cc = {}
@@ -22,7 +24,7 @@ describe("jump_to_test", function()
             },
         }
         commands.jump_to_test(mocked_state, true)
-        assert.stub(mocked_cc.open).was_not.called()
+        assert.stub(mocked_cc.open).was.called(0)
     end)
 
     it("should call the common open command with a valid node", function()
@@ -38,7 +40,7 @@ describe("jump_to_test", function()
             },
         }
         commands.jump_to_test(mocked_state, true)
-        assert.stub(mocked_cc.open).was.called()
+        assert.stub(mocked_cc.open).was.called(1)
     end)
 
     it("should position cursor to range if type is test or namespace", function()
@@ -63,6 +65,6 @@ describe("jump_to_test", function()
 
         assert
             .spy(vim.api.nvim_win_set_cursor)
-            .was_called_with(match.is_nil(), match.is_same({ mocked_range[1] + 1, mocked_range[2] }))
+            .was.called_with(match.is_nil(), match.is_same({ mocked_range[1] + 1, mocked_range[2] }))
     end)
 end)

@@ -8,7 +8,7 @@ M.jump_to_test = function(state, toggle_directory)
         return
     end
 
-    ---@type neotree-neotest.Item.Extra
+    ---@type neotree-neotest.Node.Extra
     local extra = node.extra
     local _type = node.type
 
@@ -34,34 +34,34 @@ M.jump_to_test = function(state, toggle_directory)
     end
 end
 
----@param state neotree-neotest.State
+---@param state neotree.StateWithTree
 M.run_tests = function(state)
     local tree = state.tree
     local node = tree:get_node()
     require("neotest.consumers.neotree").run_tests(node)
 end
 
----@param state neotree-neotest.State
+---@param state neotree.StateWithTree
 M.stop_tests = function(state)
     local tree = state.tree
     local node = tree:get_node()
     require("neotest.consumers.neotree").stop_tests(node)
 end
 
+---@param state neotree.StateWithTree
 M.debug_tests = function(state)
     local tree = state.tree
     local node = tree:get_node()
     require("neotest.consumers.neotree").run_tests(node, { strategy = "dap" })
 end
 
----@param state neotree-neotest.State
 M.run_all_tests = function(_)
     require("neotest.consumers.neotree").run_tests()
 end
 
 M.open = M.jump_to_test
 
----@param state neotree-neotest.State
+---@param state neotree.StateWithTree
 M.watch_tests = function(state)
     local tree = state.tree
     local node = tree:get_node()

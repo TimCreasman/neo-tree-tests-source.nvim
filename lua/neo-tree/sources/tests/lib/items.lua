@@ -1,3 +1,4 @@
+local file_items = require("neo-tree.sources.common.file-items")
 local M = {}
 
 M.render_items = function(state)
@@ -17,15 +18,14 @@ M.render_items = function(state)
     end)
 end
 
----@return neotree.FileItem.Directory
+---@return neotree-neotest.FileItem.Directory
 M.neotest_as_items = function(state)
-    local file_items = require("neo-tree.sources.common.file-items")
     local context = file_items.create_context()
     context.state = state
 
     local neotree_consumer = require("neotest.consumers.neotree")
 
-    local root = file_items.create_item(context, state.path, "directory")
+    local root = file_items.create_item(context, state.path, "directory") --[[@as neotree.FileItem.Directory]]
     root.name = vim.fn.fnamemodify(root.path, ":~")
     root.loaded = true
     root.search_pattern = state.search_pattern
