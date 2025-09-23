@@ -29,7 +29,6 @@ M.jump_to_test = function(state, toggle_directory)
     if _type == "namespace" or _type == "test" then
         local utils = require("neo-tree.utils")
         local winid = utils.get_appropriate_window(state)
-        vim.print(winid)
         vim.api.nvim_win_set_cursor(winid, { extra.range[1] + 1, extra.range[2] })
     end
 end
