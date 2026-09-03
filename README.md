@@ -10,7 +10,7 @@
     <img src="https://github.com/user-attachments/assets/fdc21ce8-42f1-4b8e-a3ed-c38ad58a1690">
 </div>
 
-This plugin serves to bridge the gap between  and [neo-tree](https://github.com/nvim-neo-tree/neo-tree.nvim) by providing a test tree source for neo-tree.
+This plugin serves to bridge the gap between [neotest](https://github.com/nvim-neotest/neotest) and [neo-tree](https://github.com/nvim-neo-tree/neo-tree.nvim) by providing a test tree source for neo-tree.
 
 This is similar to the summary consumer that neotest provides, but adapted for the look-and-feel of neo-tree.
 
